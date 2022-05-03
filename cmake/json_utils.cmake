@@ -79,3 +79,4 @@ function(get_component_props _comp)
   endforeach()
 endfunction()
 
+# function(get_shader_shaderc_commit _json)

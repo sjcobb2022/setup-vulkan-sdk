@@ -53,12 +53,16 @@ set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools
 
 message(STATUS "ShaderC deps extra ${shaderc_deps_extra}")
 
+# Need to override branch, since config.json always points to the known_good
+
 # robin-hood-hashing is odd in Vulkan SDK config.json's -- but only the header is actually needed
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command 
   test -d ${VULKAN_SDK}/include/ || mkdir -v ${VULKAN_SDK}/include/ &&
   cp -av ../robin-hood-hashing/src/include/robin_hood.h ${VULKAN_SDK}/include/
-  
 )
+
+set_property(GLOBAL APPEND PROPERTY shaderc_commit )
+
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
 
 # if SPIRV-Tools-opt is available as part of installed components enable Glslang to locate it
@@ -109,7 +113,7 @@ function(setup_component name parentName)
       setup_component_dependency(${kv} ${name})
     endforeach()
 
-    get_component_props(${name} deps cmake_extra patch_command install_command)
+    get_component_props(${name} deps cmake_extra patch_command install_command commit)
     # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
     string(REPLACE " " ";" cmake_extra "${cmake_extra}")
     set(cmake_args
@@ -123,6 +127,11 @@ function(setup_component name parentName)
     )
     list(APPEND cmake_args ${cmake_extra})
     message(STATUS "ExternalProject_Add ${name} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
+
+    if(${name} MATCHES "shaderc")
+
+    endif()
+
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
       GIT_TAG "${ref}"
