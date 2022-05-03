@@ -66,7 +66,6 @@ set_property(GLOBAL APPEND PROPERTY shaderc_commit "1bbf43f210941ba69a2cd05cf352
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
 
 
-
 # if SPIRV-Tools-opt is available as part of installed components enable Glslang to locate it
 if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shaderc")
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
@@ -117,6 +116,7 @@ function(setup_component name parentName)
 
     get_component_props(${name} deps cmake_extra patch_command install_command commit)
     # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
+
     string(REPLACE " " ";" cmake_extra "${cmake_extra}")
     set(cmake_args
         -Wno-dev
@@ -132,7 +132,7 @@ function(setup_component name parentName)
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
-      GIT_TAG "${ref}"
+      GIT_TAG "${ref}${commit}" #there is either a ref or a commit, not both
       GIT_PROGRESS OFF
       CMAKE_CACHE_ARGS ${cmake_extra}
       CMAKE_ARGS ${cmake_args}
