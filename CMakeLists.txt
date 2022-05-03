@@ -132,7 +132,7 @@ function(setup_component name parentName)
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
-      GIT_TAG "${ref}${commit}" #there is either a ref or a commit, not both
+      GIT_TAG "${branch}${commit}" #there is either a ref or a branch, not both
       GIT_PROGRESS OFF
       CMAKE_CACHE_ARGS ${cmake_extra}
       CMAKE_ARGS ${cmake_args}
