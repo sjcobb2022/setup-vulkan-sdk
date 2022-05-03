@@ -49,7 +49,10 @@ set_property(GLOBAL APPEND PROPERTY SPIRV-Tools_deps_extra "SPIRV-Headers\;SPIRV
 # manually list robin-hood-hashing as Vulkan-ValidationLayers dependency
 set_property(GLOBAL APPEND PROPERTY Vulkan-ValidationLayers_deps_extra "robin-hood-hashing\;ROBIN_HOOD_HASHING_INSTALL_DIR")
 
-set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR\;Glslang\;glslang_SOURCE_DIR")
+set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
+set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "Glslang\;glslang_SOURCE_DIR")
+
+message(STATUS "ShaderC deps extra ${shaderc_deps_extra}")
 
 # robin-hood-hashing is odd in Vulkan SDK config.json's -- but only the header is actually needed
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command 
@@ -90,10 +93,10 @@ endfunction()
 
 function(setup_component name parentName)
     if (TARGET ${name})
-      # message(STATUS "skipping second ExternalProject_Add ${name}")
+      message(STATUS "skipping second ExternalProject_Add ${name}")
       return()
     endif()
-    # message(">>>>>>>>>>>>>>>>>>>>>> ${name}_component_defined==${${name}_component_defined}")
+    message(">>>>>>>>>>>>>>>>>>>>>> ${name}_component_defined==${${name}_component_defined}")
     json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies)
     _assert(url "could not read URL for name=${name} url=${url}")
     json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
