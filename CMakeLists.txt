@@ -63,7 +63,7 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
 
 # if SPIRV-Tools-opt is available as part of installed components enable Glslang to locate it
-if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang")
+if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shaderc")
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
   file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake [====[
@@ -96,7 +96,7 @@ function(setup_component name parentName)
       message(STATUS "skipping second ExternalProject_Add ${name}")
       return()
     endif()
-    message(">>>>>>>>>>>>>>>>>>>>>> ${name}_component_defined==${${name}_component_defined}")
+    # message(">>>>>>>>>>>>>>>>>>>>>> ${name}_component_defined==${${name}_component_defined}")
     json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies)
     _assert(url "could not read URL for name=${name} url=${url}")
     json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
@@ -106,6 +106,7 @@ function(setup_component name parentName)
     # then any override deps_extra's
     get_component_props(${name} deps_extra)
     foreach(kv ${deps_extra})
+      message(STATUS "setup component dependency ${deps_extra}")
       setup_component_dependency(${kv} ${name})
     endforeach()
 
