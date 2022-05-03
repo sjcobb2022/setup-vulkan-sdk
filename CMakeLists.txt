@@ -101,9 +101,9 @@ function(setup_component name parentName)
       return()
     endif()
     # message(">>>>>>>>>>>>>>>>>>>>>> ${name}_component_defined==${${name}_component_defined}")
-    json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies commit tag branch)
+    json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies)
     _assert(url "could not read URL for name=${name} url=${url}")
-    json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
+
 
     # process config.json dependencies first
     json_foreach("${dependencies}" "" setup_component_dependency ${name})
@@ -114,9 +114,12 @@ function(setup_component name parentName)
       setup_component_dependency(${kv} ${name})
     endforeach()
 
-    get_component_props(${name} deps cmake_extra patch_command install_command)
-    # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
+    get_component_props(${name} deps cmake_extra patch_command install_command commit)
 
+    # coalesce after getting new props to override commit
+    json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
+
+    # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
     string(REPLACE " " ";" cmake_extra "${cmake_extra}")
     set(cmake_args
         -Wno-dev
@@ -128,7 +131,7 @@ function(setup_component name parentName)
         # -DCMAKE_BUILD_WITH_INSTALL_RPATH:BOOL=ON
     )
     list(APPEND cmake_args ${cmake_extra})
-    message(STATUS "ExternalProject_Add ${branch} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
+    message(STATUS "ExternalProject_Add ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
 
     message(STATUS ">>>>>>>>>>> REF FOR ${name} IS ${ref}")
     message(STATUS ">>>>>>>>>>> TAG FOR ${name} IS ${tag}")
