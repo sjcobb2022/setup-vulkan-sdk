@@ -114,7 +114,7 @@ function(setup_component name parentName)
       setup_component_dependency(${kv} ${name})
     endforeach()
 
-    get_component_props(${name} deps cmake_extra patch_command install_command commit)
+    get_component_props(${name} deps cmake_extra patch_command install_command)
     # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
 
     string(REPLACE " " ";" cmake_extra "${cmake_extra}")
@@ -132,7 +132,7 @@ function(setup_component name parentName)
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
-      GIT_TAG "${tag}${commit}" #there is either a ref or a branch, not both
+      GIT_TAG "${ref}" #there is either a ref or a branch, not both
       GIT_PROGRESS OFF
       CMAKE_CACHE_ARGS ${cmake_extra}
       CMAKE_ARGS ${cmake_args}
