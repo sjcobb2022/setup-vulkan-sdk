@@ -128,11 +128,11 @@ function(setup_component name parentName)
         # -DCMAKE_BUILD_WITH_INSTALL_RPATH:BOOL=ON
     )
     list(APPEND cmake_args ${cmake_extra})
-    message(STATUS "ExternalProject_Add ${name} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
+    message(STATUS "ExternalProject_Add ${branch} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
-      GIT_TAG "${ref}" #there is either a ref or a branch, not both
+      GIT_TAG "${branch}" #there is either a ref or a branch, not both
       GIT_PROGRESS OFF
       CMAKE_CACHE_ARGS ${cmake_extra}
       CMAKE_ARGS ${cmake_args}
