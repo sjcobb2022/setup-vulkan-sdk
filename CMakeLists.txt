@@ -130,9 +130,11 @@ function(setup_component name parentName)
     list(APPEND cmake_args ${cmake_extra})
     message(STATUS "ExternalProject_Add ${branch} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
 
+    message(STATUS ">>>>>>>>>>> REF IS ${ref}")
+
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
-      GIT_TAG "${branch}" #there is either a ref or a branch, not both
+      GIT_TAG "${ref}" #there is either a ref or a branch, not both
       GIT_PROGRESS OFF
       CMAKE_CACHE_ARGS ${cmake_extra}
       CMAKE_ARGS ${cmake_args}
