@@ -131,10 +131,13 @@ function(setup_component name parentName)
     message(STATUS "ExternalProject_Add ${branch} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
 
     message(STATUS ">>>>>>>>>>> REF FOR ${name} IS ${ref}")
+    message(STATUS ">>>>>>>>>>> TAG FOR ${name} IS ${tag}")
+    message(STATUS ">>>>>>>>>>> BRANCH FOR ${name} IS ${branch}")
+    message(STATUS ">>>>>>>>>>> COMMIT FOR ${name} IS ${commmit}")
 
-    if("${ref}" STREQUAL "${branch}")
-      message(STATUS "WAHT TEH FUCK THEY ARE EQUAL THIS SHOULD NOT BE HAPPENING")
-    endif()
+    # if("${ref}" STREQUAL "${branch}")
+    #   message(STATUS "WAHT TEH FUCK THEY ARE EQUAL THIS SHOULD NOT BE HAPPENING")
+    # endif()
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
