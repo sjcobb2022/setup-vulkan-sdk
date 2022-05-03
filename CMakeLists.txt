@@ -101,7 +101,7 @@ function(setup_component name parentName)
       return()
     endif()
     # message(">>>>>>>>>>>>>>>>>>>>>> ${name}_component_defined==${${name}_component_defined}")
-    json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies)
+    json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies commit tag branch)
     _assert(url "could not read URL for name=${name} url=${url}")
     json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
 
