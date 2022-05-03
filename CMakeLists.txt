@@ -61,9 +61,11 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command
   cp -av ../robin-hood-hashing/src/include/robin_hood.h ${VULKAN_SDK}/include/
 )
 
-set_property(GLOBAL APPEND PROPERTY shaderc_commit )
+set_property(GLOBAL APPEND PROPERTY shaderc_commit "1bbf43f210941ba69a2cd05cf3529063f1ff5bb9")
 
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
+
+
 
 # if SPIRV-Tools-opt is available as part of installed components enable Glslang to locate it
 if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shaderc")
@@ -127,10 +129,6 @@ function(setup_component name parentName)
     )
     list(APPEND cmake_args ${cmake_extra})
     message(STATUS "ExternalProject_Add ${name} ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
-
-    if(${name} MATCHES "shaderc")
-
-    endif()
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
