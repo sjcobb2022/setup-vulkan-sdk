@@ -27,7 +27,7 @@ function(json_coalesce_subprops _json _OUTVAR)
         
         # Get _comp
         message("UNPARSED ${_sub_UNPARSED_ARGUMENTS}")
-        separate_arguments(_sub_UNPARSED_ARGUMENTS) #seperate unparsed
+        # separate_arguments(_sub_UNPARSED_ARGUMENTS) #seperate unparsed
 
         list(LENGTH ${_sub_UNPARSED_ARGUMENTS} len)
         message("LENGHT OF LIST ${len}")
