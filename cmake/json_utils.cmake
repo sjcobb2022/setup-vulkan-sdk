@@ -24,6 +24,19 @@ function(json_coalesce_subprops _json _OUTVAR)
     cmake_parse_arguments(_sub "" "" "PROPERTIES" ${ARGN})
     foreach(_arg IN LISTS _sub_PROPERTIES)
         string(JSON _value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${_arg}")
+        
+        # Get _comp
+        list(LENGTH ${_sub_UNPARSED_ARGUMENTS} len)
+        math(EXPR last_index "${len} - 1")
+        list(GET ${_sub_UNPARSED_ARGUMENTS} ${last_index} _comp)
+        get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
+
+        if(NOT ${_val_extra} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
+          set(${_OUTVAR} ${_value} PARENT_SCOPE)
+          return()
+        endif()
+
+        message(STATUS "****************************** Looking at ${_value}")
         if (NOT ${_value} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
           message(STATUS " ****************************** Setting ${_arg} from ${_sub_UNPARSED_ARGUMENTS} as ${_value}")
           # message(STATUS "setting ${_sub_UNPARSED_ARGUMENTS} ${_OUTVAR} as ${_value}")
