@@ -50,10 +50,8 @@ set_property(GLOBAL APPEND PROPERTY SPIRV-Tools_deps_extra "SPIRV-Headers\;SPIRV
 set_property(GLOBAL APPEND PROPERTY Vulkan-ValidationLayers_deps_extra "robin-hood-hashing\;ROBIN_HOOD_HASHING_INSTALL_DIR")
 
 set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR;Glslang\;glslang_SOURCE_DIR")
+set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra "-DCMAKE_DEBUG_POSTFIX=d;SHADERC_SKIP_TESTS=ON;SHADERC_ENABLE_SHARED_CRT=ON;SHADERC_SKIP_COPYRIGHT_CHECK=ON")
 
-message(STATUS "ShaderC deps extra ${shaderc_deps_extra}")
-
-# Need to override branch, since config.json always points to the known_good
 
 # robin-hood-hashing is odd in Vulkan SDK config.json's -- but only the header is actually needed
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command 
@@ -61,6 +59,7 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command
   cp -av ../robin-hood-hashing/src/include/robin_hood.h ${VULKAN_SDK}/include/
 )
 
+# Need to override branch, since config.json always points to the known_good
 set_property(GLOBAL APPEND PROPERTY shaderc_commit "1bbf43f210941ba69a2cd05cf3529063f1ff5bb9")
 
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
