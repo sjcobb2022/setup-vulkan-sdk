@@ -26,35 +26,16 @@ function(json_coalesce_subprops _json _OUTVAR)
         string(JSON _value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${_arg}")
         
         # Get _comp
-        message("UNPARSED ${_sub_UNPARSED_ARGUMENTS}")
-        message(STATUS "string = ${_sub_UNPARSED_ARGUMENTS}")
-        set( SEXY_LIST "${_sub_UNPARSED_ARGUMENTS}")
-        separate_arguments(SEXY_LIST)
-        message(STATUS "list = ${SEXY_LIST}")
-        list(LENGTH SEXY_LIST len)
-        message(STATUS "len = ${len}")
+        set(route "${_sub_UNPARSED_ARGUMENTS}")
+        separate_arguments(route)
+        list(LENGTH route len)
         math(EXPR last_index "${len} - 1")
-        message(STATUS "${last_index}")
-        list(GET SEXY_LIST ${last_index} _comp)
-        message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
+        list(GET route ${last_index} _comp)
+        message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg}")
 
+        get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
 
-
-        # separate_arguments(${_sub_UNPARSED_ARGUMENTS}) #seperate unparsed
-
-        # list(LENGTH ${_sub_UNPARSED_ARGUMENTS} len)
-        # message("LENGHT OF LIST ${len}")
-        # math(EXPR last_index "${len} - 1")
-        # message(STATUS "${last_index}")
-        # list(GET "${_sub_UNPARSED_ARGUMENTS}" 0 _comp)
-        # message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
-        # get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
-
-        # message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
-        # message(STATUS "${_val_extra} VAL EXTRA THIS SHOULD NOT BE NULL FOR SHADER C")
-        # list(GET ${_sub_UNPARSED_ARGUMENTS} 1 _comp)
-        # message(STATUS " ${_comp} THIS SHOUDL BE A COMPONENT")
-
+        message(STATUS "${_comp}_${_arg} is ${_val_extra}")
 
         if(NOT ${_val_extra} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
           set(${_OUTVAR} ${_value} PARENT_SCOPE)
