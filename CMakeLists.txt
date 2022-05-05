@@ -132,20 +132,18 @@ function(setup_component name parentName)
     )
 
     list(APPEND cmake_args ${cmake_extra})
+
+    message(STATUS "CMAKE")
     message(STATUS "ExternalProject_Add ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
-
     message(STATUS ">>>>>>>>>>> REF FOR ${name} IS ${ref}")
-    message(STATUS ">>>>>>>>>>> TAG FOR ${name} IS ${tag}")
-    message(STATUS ">>>>>>>>>>> BRANCH FOR ${name} IS ${branch}")
-    message(STATUS ">>>>>>>>>>> COMMIT FOR ${name} IS ${commmit}")
 
-    # if("${ref}" STREQUAL "${branch}")
-    #   message(STATUS "WAHT TEH FUCK THEY ARE EQUAL THIS SHOULD NOT BE HAPPENING")
-    # endif()
+    json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES defines)
+
+    message(STATUS " >>> ${defines}")
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
-      GIT_TAG "${ref}" #there is either a ref or a branch, not both
+      GIT_TAG "${ref}"
       GIT_PROGRESS OFF
       CMAKE_CACHE_ARGS ${cmake_extra}
       CMAKE_ARGS ${cmake_args}
