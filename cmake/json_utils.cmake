@@ -29,6 +29,7 @@ function(json_coalesce_subprops _json _OUTVAR)
         list(LENGTH "${_sub_UNPARSED_ARGUMENTS}" len)
         math(EXPR last_index "${len} - 1")
         list(GET "${_sub_UNPARSED_ARGUMENTS}" ${last_index} _comp)
+        message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
         get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
 
         message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
