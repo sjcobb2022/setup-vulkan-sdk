@@ -156,6 +156,11 @@ function(setup_component name parentName)
       PATCH_COMMAND ${patch_command}
       INSTALL_COMMAND ${install_command}
     )
+
+    ExternalProject_Get_Property("${name}" SOURCE_DIR)
+    message("Source dir of ${name} = ${SOURCE_DIR}")
+
+    message()
     set_property(GLOBAL APPEND PROPERTY VULKAN_COMPONENTS_PROCESSED ${name})
 endfunction()
 
