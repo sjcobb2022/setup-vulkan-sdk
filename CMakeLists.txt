@@ -50,7 +50,12 @@ set_property(GLOBAL APPEND PROPERTY SPIRV-Tools_deps_extra "SPIRV-Headers\;SPIRV
 set_property(GLOBAL APPEND PROPERTY Vulkan-ValidationLayers_deps_extra "robin-hood-hashing\;ROBIN_HOOD_HASHING_INSTALL_DIR")
 
 set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR;Glslang\;glslang_SOURCE_DIR")
-set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra "-DCMAKE_DEBUG_POSTFIX=d;SHADERC_SKIP_TESTS=ON;SHADERC_ENABLE_SHARED_CRT=ON;SHADERC_SKIP_COPYRIGHT_CHECK=ON")
+set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DCMAKE_DEBUG_POSTFIX=d)
+set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_SKIP_TESTS:BOOL=ON)
+set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
+set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_SKIP_COPYRIGHT_CHECK:BOOL=ON)
+
+message(STATUS "cmake extra ${shaderc_cmake_extra}")
 
 
 # robin-hood-hashing is odd in Vulkan SDK config.json's -- but only the header is actually needed
