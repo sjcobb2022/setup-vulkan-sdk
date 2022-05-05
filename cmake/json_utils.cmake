@@ -38,8 +38,11 @@ function(json_coalesce_subprops _json _OUTVAR)
         message(STATUS "${_comp}_${_arg} is ${_val_extra}")
 
         if(NOT ${_val_extra} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
+          message(STATUS "Found ${_comp}_${_arg} :: ${_val_extra}")
           set(${_OUTVAR} ${_value} PARENT_SCOPE)
           return()
+        else()
+          message(STATUS "Could not find ${_comp}_${_arg} :: ${_val_extra}")
         endif()
 
         message(STATUS "****************************** Looking at ${_value}")
