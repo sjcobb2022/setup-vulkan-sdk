@@ -26,10 +26,12 @@ function(json_coalesce_subprops _json _OUTVAR)
         string(JSON _value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${_arg}")
         
         # Get _comp
+        message("UNPARSED ${_sub_UNPARSED_ARGUMENTS}")
         list(LENGTH "${_sub_UNPARSED_ARGUMENTS}" len)
+        message("LENGHT OF LIST ${len}")
         math(EXPR last_index "${len} - 1")
+        message(STATUS "${last_index}")
         list(GET "${_sub_UNPARSED_ARGUMENTS}" 0 _comp)
-
         message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
         get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
 
