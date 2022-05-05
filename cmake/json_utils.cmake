@@ -37,16 +37,16 @@ function(json_coalesce_subprops _json _OUTVAR)
 
         # separate_arguments(${_sub_UNPARSED_ARGUMENTS}) #seperate unparsed
 
-        list(LENGTH ${_sub_UNPARSED_ARGUMENTS} len)
-        message("LENGHT OF LIST ${len}")
-        math(EXPR last_index "${len} - 1")
-        message(STATUS "${last_index}")
-        list(GET "${_sub_UNPARSED_ARGUMENTS}" 0 _comp)
-        message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
-        get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
+        # list(LENGTH ${_sub_UNPARSED_ARGUMENTS} len)
+        # message("LENGHT OF LIST ${len}")
+        # math(EXPR last_index "${len} - 1")
+        # message(STATUS "${last_index}")
+        # list(GET "${_sub_UNPARSED_ARGUMENTS}" 0 _comp)
+        # message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
+        # get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
 
-        message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
-        message(STATUS "${_val_extra} VAL EXTRA THIS SHOULD NOT BE NULL FOR SHADER C")
+        # message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
+        # message(STATUS "${_val_extra} VAL EXTRA THIS SHOULD NOT BE NULL FOR SHADER C")
         # list(GET ${_sub_UNPARSED_ARGUMENTS} 1 _comp)
         # message(STATUS " ${_comp} THIS SHOUDL BE A COMPONENT")
 
