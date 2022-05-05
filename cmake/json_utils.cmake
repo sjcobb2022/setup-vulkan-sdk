@@ -28,10 +28,11 @@ function(json_coalesce_subprops _json _OUTVAR)
         # Get _comp
         list(LENGTH "${_sub_UNPARSED_ARGUMENTS}" len)
         math(EXPR last_index "${len} - 1")
-        list(GET ${_sub_UNPARSED_ARGUMENTS} ${last_index} _comp)
+        list(GET "${_sub_UNPARSED_ARGUMENTS}" ${last_index} _comp)
         get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
 
-        # message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
+        message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
+        message(STATUS "${_val_extra} VAL EXTRA THIS SHOULD NOT BE NULL FOR SHADER C")
         # list(GET ${_sub_UNPARSED_ARGUMENTS} 1 _comp)
         # message(STATUS " ${_comp} THIS SHOUDL BE A COMPONENT")
 
