@@ -67,7 +67,7 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command
 
 # Need to override branch, since config.json always points to the known_good
 set_property(GLOBAL APPEND PROPERTY shaderc_commit "1bbf43f210941ba69a2cd05cf3529063f1ff5bb9")
-set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'set(SHADERC_THIRD_PARTY_ROOT_DIR \"${VULKAN_SDK}\" CACHE FILEPATH "" FORCE)' | tee third_party/CMakeLists.txt")
+set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'set(SHADERC_THIRD_PARTY_ROOT_DIR ${VULKAN_SDK} CACHE FILEPATH "" FORCE)' | tee third_party/CMakeLists.txt")
 
 
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
