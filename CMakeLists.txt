@@ -160,7 +160,7 @@ function(setup_component name parentName)
     ExternalProject_Get_Property("${name}" SOURCE_DIR)
     message(STATUS "Source dir of ${name} = ${SOURCE_DIR}")
 
-    message()
+    # message()
     set_property(GLOBAL APPEND PROPERTY VULKAN_COMPONENTS_PROCESSED ${name})
 endfunction()
 
