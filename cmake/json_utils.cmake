@@ -35,7 +35,7 @@ function(json_coalesce_subprops _json _OUTVAR)
         message(STATUS "len = ${len}")
         math(EXPR last_index "${len} - 1")
         message(STATUS "${last_index}")
-        list(GET SEXY_LIST last_index _comp)
+        list(GET SEXY_LIST ${last_index} _comp)
         message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
 
 
