@@ -32,6 +32,9 @@ function(json_coalesce_subprops _json _OUTVAR)
         # get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
 
         message(STATUS " ${_sub_UNPARSED_ARGUMENTS} THIS SHOULD NEVER BE EMPTY")
+        list(GET ${_sub_UNPARSED_ARGUMENTS} 1 _comp)
+        message(STATUS " ${_comp} THIS SHOUDL BE A COMPONENT")
+
 
         if(NOT ${_val_extra} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
           set(${_OUTVAR} ${_value} PARENT_SCOPE)
