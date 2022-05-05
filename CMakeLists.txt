@@ -67,11 +67,8 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command
 
 # Need to override branch, since config.json always points to the known_good
 set_property(GLOBAL APPEND PROPERTY shaderc_commit "1bbf43f210941ba69a2cd05cf3529063f1ff5bb9")
-set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'set(SHADERC_THIRD_PARTY_ROOT_DIR \"${VULKAN_SDK}\" CACHE FILEPATH \"\" FORCE)' | tee third_party/CMakeLists.txt")
-
 
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALONE_PROJECT:BOOL=OFF)
-
 
 # if SPIRV-Tools-opt is available as part of installed components enable Glslang to locate it
 if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shaderc")
@@ -94,6 +91,18 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
 else()
   # otherwise disable External completely 
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DBUILD_EXTERNAL:BOOL=OFF)
+endif()
+
+if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
+  message("Shaderc -- patching third part dependencies")
+  file(WRITE ${CMAKE_BINARY_DIR}/shaderc_deps_patch.cmake [====[
+    set(SHADERC_THIRD_PARTY_ROOT_DIR "${VULKAN_SDK}" CACHE FILEPATH "" FORCE)
+    find_package(SPIRV-Tools)
+    find_package(glslang)
+    add_library(SPIRV-Tools)
+    add_library(glslang)
+  ]====])
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_deps_patch.cmake)' | tee third_party/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
