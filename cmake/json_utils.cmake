@@ -27,13 +27,18 @@ function(json_coalesce_subprops _json _OUTVAR)
         
         # Get _comp
         message("UNPARSED ${_sub_UNPARSED_ARGUMENTS}")
-
         message(STATUS "string = ${_sub_UNPARSED_ARGUMENTS}")
         set( SEXY_LIST "${_sub_UNPARSED_ARGUMENTS}")
         separate_arguments(SEXY_LIST)
         message(STATUS "list = ${SEXY_LIST}")
         list(LENGTH SEXY_LIST len)
         message(STATUS "len = ${len}")
+        math(EXPR last_index "${len} - 1")
+        message(STATUS "${last_index}")
+        list(GET SEXY_LIST last_index _comp)
+        message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg} ")
+
+
 
         # separate_arguments(${_sub_UNPARSED_ARGUMENTS}) #seperate unparsed
 
