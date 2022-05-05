@@ -23,9 +23,7 @@ endfunction()
 function(json_coalesce_subprops _json _OUTVAR)
     cmake_parse_arguments(_sub "" "" "PROPERTIES" ${ARGN})
     foreach(_arg IN LISTS _sub_PROPERTIES)
-        string(JSON _value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${_arg}")
-        
-        # Get _comp
+
         set(route "${_sub_UNPARSED_ARGUMENTS}")
         separate_arguments(route)
         list(LENGTH route len)
@@ -33,22 +31,19 @@ function(json_coalesce_subprops _json _OUTVAR)
         list(GET route ${last_index} _comp)
         message(STATUS "COMP SHOULD NOT BE EMPTY :: ${_comp} :: ${_comp}_${_arg}")
 
-        get_property(_val_extra GLOBAL PROPERTY "${_comp}_${_arg}")
+        get_property(_value GLOBAL PROPERTY "${_comp}_${_arg}")
 
-        message(STATUS "${_comp}_${_arg} is ${_val_extra}")
-
-        if(NOT ${_val_extra} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
-          message(STATUS "Found ${_comp}_${_arg} :: ${_val_extra}")
+        if(NOT ${_value} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
+          message(STATUS "Found ${_comp}_${_arg} :: ${_value}")
           set(${_OUTVAR} ${_value} PARENT_SCOPE)
           return()
-        else()
-          message(STATUS "Could not find ${_comp}_${_arg} :: ${_val_extra}")
         endif()
+
+        string(JSON _value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${_arg}")
 
         message(STATUS "****************************** Looking at ${_value}")
         if (NOT ${_value} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
           message(STATUS " ****************************** Setting ${_arg} from ${_sub_UNPARSED_ARGUMENTS} as ${_value}")
-          # message(STATUS "setting ${_sub_UNPARSED_ARGUMENTS} ${_OUTVAR} as ${_value}")
           set(${_OUTVAR} ${_value} PARENT_SCOPE)
           return()
         endif()
