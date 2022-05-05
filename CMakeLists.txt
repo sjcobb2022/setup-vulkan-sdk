@@ -114,13 +114,10 @@ function(setup_component name parentName)
       setup_component_dependency(${kv} ${name})
     endforeach()
 
-    get_component_props(${name} deps cmake_extra patch_command install_command commit tag branch)
+    get_component_props(${name} deps cmake_extra patch_command install_command)
 
     # coalesce AFTER getting new props to override commit
-    # json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
-
-    set(ref "${commit}${branch}")
-    string(STRIP "${ref}" ref)
+    json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
 
     # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
     string(REPLACE " " ";" cmake_extra "${cmake_extra}")
@@ -133,6 +130,7 @@ function(setup_component name parentName)
         # -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
         # -DCMAKE_BUILD_WITH_INSTALL_RPATH:BOOL=ON
     )
+    
     list(APPEND cmake_args ${cmake_extra})
     message(STATUS "ExternalProject_Add ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
 
