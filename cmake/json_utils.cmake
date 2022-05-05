@@ -27,7 +27,15 @@ function(json_coalesce_subprops _json _OUTVAR)
         
         # Get _comp
         message("UNPARSED ${_sub_UNPARSED_ARGUMENTS}")
-        # separate_arguments(_sub_UNPARSED_ARGUMENTS) #seperate unparsed
+
+        message(STATUS "string = ${_sub_UNPARSED_ARGUMENTS}")
+        set( SEXY_LIST "${_sub_UNPARSED_ARGUMENTS}")
+        separate_arguments(SEXY_LIST)
+        message(STATUS "list = ${SEXY_LIST}")
+        list(LENGTH SEXY_LIST len)
+        message(STATUS "len = ${len}")
+
+        # separate_arguments(${_sub_UNPARSED_ARGUMENTS}) #seperate unparsed
 
         list(LENGTH ${_sub_UNPARSED_ARGUMENTS} len)
         message("LENGHT OF LIST ${len}")
