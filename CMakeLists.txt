@@ -50,11 +50,11 @@ set_property(GLOBAL APPEND PROPERTY SPIRV-Tools_deps_extra "SPIRV-Headers\;SPIRV
 set_property(GLOBAL APPEND PROPERTY Vulkan-ValidationLayers_deps_extra "robin-hood-hashing\;ROBIN_HOOD_HASHING_INSTALL_DIR")
 
 set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR;Glslang\;glslang_SOURCE_DIR")
-set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DCMAKE_DEBUG_POSTFIX=d)
+# set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DCMAKE_DEBUG_POSTFIX:STRING=d)
 set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_SKIP_TESTS:BOOL=ON)
 set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
 set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_SKIP_COPYRIGHT_CHECK:BOOL=ON)
-set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_THIRD_PARTY_ROOT_DIR=${VULKAN_SDK})
+set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_THIRD_PARTY_ROOT_DIR:FILEPATH=${VULKAN_SDK})
 
 message(STATUS "cmake extra ${shaderc_cmake_extra}")
 
