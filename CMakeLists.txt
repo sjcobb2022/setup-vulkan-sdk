@@ -119,10 +119,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     install(TARGETS glslang EXPORT glslang)
     install(EXPORT glslang DESTINATION lib/cmake)
 
-    execute_process(COMMAND bash "-c" "ls ${CMAKE_INSTALL_PREFIX}")
-    execute_process(COMMAND bash "-c" "ls ${CMAKE_INSTALL_PREFIX}/lib")
-    execute_process(COMMAND bash "-c" "ls ${CMAKE_INSTALL_PREFIX}/include")
-
+    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}")
+    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
+    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/include")
 
     find_library(Glslang glslang PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     # find_library(hlsl HLSL PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
