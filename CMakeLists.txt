@@ -119,9 +119,23 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       endforeach()
 
     endfunction()
+
+    # set(GLSLANGLIBS
+    # glslang
+    # HLSL
+    # OSDependent
+    # OGLCompiler
+    # SPIRV)
     
     # add_library(SPIRV-Tools-opt INTERFACE)
-    # add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
+    add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
+    add_target(HLSL LINK_LIBS HLSL)
+    add_target(OSDependent LINK_LIBS OSDependent)
+    add_target(OGLCompiler LINK_LIBS OGLCompiler)
+    add_target(SPIRV LINK_LIBS SPIRV)
+
+
+
 
     # add spirv-opt as a target 
     # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
