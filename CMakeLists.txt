@@ -19,6 +19,8 @@ include(cmake/json_utils.cmake)
 
 project(VulkanSDKComponents)
 
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
+
 set(AVAILABLE_COMPONENTS "Vulkan-Headers Vulkan-Loader SPIRV-Headers SPIRV-Cross SPIRV-Tools SPIRV-Reflect Glslang shaderc")
 # TODO: Vulkan-ExtensionLayer Khronos-Tools LunarG-Tools DXC gfxreconstruct MoltenVK Vulkan-Docs Vulkan-ValidationLayers robin-hood-hashing shaderc
 
@@ -58,6 +60,9 @@ set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_THIRD_PARTY_RO
 
 message(STATUS "cmake extra ${shaderc_cmake_extra}")
 
+set(CMAKE_BINARY_DIR C:/dev/rush.vk/build/_vulkan_build)
+# set(CMAKE_BUILD C:/dev/rush.vk/build/_vulkan_build)
+
 
 # robin-hood-hashing is odd in Vulkan SDK config.json's -- but only the header is actually needed
 set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_install_command 
@@ -74,7 +79,7 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALO
 if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shaderc")
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
-  file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake [====[
+  file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake ENCODING  [====[
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
@@ -96,38 +101,8 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   message("Shaderc -- patching third part dependencies")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_deps_patch.cmake [====[
-    set(SHADERC_THIRD_PARTY_ROOT_DIR "${VULKAN_SDK}" CACHE FILEPATH "" FORCE)
-    # find_package(SPIRV-Tools)
-    add_library(SPIRV-Tools-opt INTERFACE)
-    set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    
-    install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-opt)
-    install(EXPORT SPIRV-Tools-opt DESTINATION lib/cmake)
-    set(spirv_tools NOTFOUND)
-    set(spirv_tools_opt NOTFOUND)
-    
-    find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-
-    add_library(glslang INTERFACE)
-    set_property(TARGET glslang APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-
-    install(TARGETS glslang EXPORT glslang)
-    install(EXPORT glslang DESTINATION lib/cmake)
-
-    set(Glslang NOTFOUND)
-
-    find_library(Glslang glslang PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-
-    set_property(TARGET glslang APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${Glslang})
-
-    # include(${CMAKE_INSTALL_INCLUDEDIR})
-    # find_package(glslang)
-    # add_library(SPIRV-Tools)
-    # add_library(glslang)
+  find_package(SPIRV-Tools)
+  find_package(GLSLang)
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_deps_patch.cmake)' | tee CMakeLists.txt")
 endif()
