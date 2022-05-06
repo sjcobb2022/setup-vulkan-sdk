@@ -121,7 +121,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endfunction()
     
     # add_library(SPIRV-Tools-opt INTERFACE)
-    add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
+    # add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
 
     # add spirv-opt as a target 
     # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
