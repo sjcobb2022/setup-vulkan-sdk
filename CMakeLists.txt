@@ -134,32 +134,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_target(OGLCompiler LINK_LIBS OGLCompiler)
     add_target(SPIRV LINK_LIBS SPIRV)
 
-
-
-
-    # add spirv-opt as a target 
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-opt)
-    # install(EXPORT SPIRV-Tools-opt DESTINATION lib/cmake)
-    # set(spirv_tools NOTFOUND)
-    # set(spirv_tools_opt NOTFOUND)
-    # find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-
-    # add_library(glslang INTERFACE)
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # install(TARGETS glslang EXPORT glslang)
-    # install(EXPORT glslang DESTINATION lib/cmake)
-
-    # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}")
-    # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
-    # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/include")
-
-    # find_library(Glslang glslang PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${Glslang})
+    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}")
+    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
+    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/include")
 
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
