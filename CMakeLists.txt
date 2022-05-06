@@ -79,7 +79,7 @@ set_property(GLOBAL APPEND PROPERTY robin-hood-hashing_cmake_extra -DRH_STANDALO
 if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shaderc")
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
-  file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake ENCODING  [====[
+  file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake  [====[
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
@@ -99,8 +99,7 @@ else()
 endif()
 
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
-  message("Shaderc -- patching third part dependencies")
-  file(WRITE ${CMAKE_BINARY_DIR}/shaderc_deps_patch.cmake [====[
+  file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
@@ -111,10 +110,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-    
-    # find_package(GLSLang)
+    find_package(GLSLang)
   ]====])
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_deps_patch.cmake)' | tee third_party/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
