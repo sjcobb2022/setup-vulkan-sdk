@@ -103,12 +103,17 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
 
-    # add_target(${name} LINK_LIBS property [property...])
-    function(add_target name)
+    # add_target(${name} LINK_LIBS lib [lib...])
+    function(add_target name include)
       cmake_parse_arguments(_sub "" "" "LINK_LIBS" ${ARGN})
       add_library(${name} INTERFACE)
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
+      string(TOLOWER ${name} lc_name)
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
+      if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}/")
+        set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${lc_name} )
+      endif()
+
       install(TARGETS ${name} EXPORT ${name})
       install(EXPORT ${name} DESTINATION lib/cmake)
 
@@ -129,10 +134,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     
     # add_library(SPIRV-Tools-opt INTERFACE)
     add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
+    add_target(SPIRV LINK_LIBS SPIRV)
     add_target(HLSL LINK_LIBS HLSL)
     add_target(OSDependent LINK_LIBS OSDependent)
     add_target(OGLCompiler LINK_LIBS OGLCompiler)
-    add_target(SPIRV LINK_LIBS SPIRV)
 
     execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}")
     execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
