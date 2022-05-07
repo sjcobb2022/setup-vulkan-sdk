@@ -122,7 +122,16 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
         find_library(lib ${arg} PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
         set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${lib})
       endforeach()
+    endfunction()
 
+    function(ls_path path)
+      if(WIN32)
+        execute_process(COMMAND powershell "-Command" "ls ${path}")
+        # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
+        # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/include")
+      else()
+        execute_process(COMMAND bash "-c" "ls ${path}")
+      endif()
     endfunction()
 
     # set(GLSLANGLIBS
@@ -131,6 +140,18 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # OSDependent
     # OGLCompiler
     # SPIRV)
+
+    ls_path("${CMAKE_INSTALL_PREFIX}")
+    ls_path("${CMAKE_INSTALL_PREFIX}/lib")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv-tools")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
+
+
+
+
+
     
     # add_library(SPIRV-Tools-opt INTERFACE)
     add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
@@ -139,9 +160,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_target(OSDependent LINK_LIBS OSDependent)
     add_target(OGLCompiler LINK_LIBS OGLCompiler)
 
-    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}")
-    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
-    execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/include")
+    
 
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
