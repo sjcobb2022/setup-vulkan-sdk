@@ -115,7 +115,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
       foreach(arg IN LISTS _sub_LINK_LIBS)
         string(TOLOWER ${arg} lc_name)
-        if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}/")
+        if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
           set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${lc_name} )
         endif()
         string(RANDOM LENGTH 10 lib)
