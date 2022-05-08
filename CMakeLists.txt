@@ -106,14 +106,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
 
-      # cmake_parse_arguments(_sub "" "" "PROPERTIES" ${ARGN})
-      
-      foreach(arg ${ARGN})
-        # string(JSON value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${arg}")
-        message(" >> >> >> >> >> >> Getting ${arg}")
-        # set(${arg} ${value} PARENT_SCOPE)
-      endforeach()
-
       add_library(${name} INTERFACE)
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
@@ -124,7 +116,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       message(STATUS " >>>> This should message")
       message(STATUS " >>>> ${ARGN}")
 
-      foreach(arg IN LISTS _sub_PROPERTIES)
+      foreach(arg ${ARGN})
         string(TOLOWER ${arg} lc_name)
         message(STATUS "Processing ${name} for ${arg}")
         if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
