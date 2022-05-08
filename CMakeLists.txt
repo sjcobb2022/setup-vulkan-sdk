@@ -146,9 +146,15 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/Include")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/MachineIndependent")
+    ls_path("${CMAKE_INSTALL_PREFIX}/share")
+
+
+
     # execute_process(COMMAND powershell "-Command" "cat ${CMAKE_INSTALL_PREFIX}/include/glslang/build_info.h")
-    # execute_process(COMMAND powershell "-Command" "Get-ChildItem -Recurse -Filter 'GlslangToSpv.*'")
-    find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/SPIRV )
+    # execute_process(COMMAND powershell "-Command" "Get-ChildItem -Recurse -Filter 'GlslangToSpv.*'")  
+    find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.0 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.1 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.2 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/unified1)
 
     if(${GlslangToSpv} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
       message(FATAL_ERROR "Could not find file this sucks")
@@ -189,7 +195,6 @@ function(setup_component name parentName)
     json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES url dependencies)
     _assert(url "could not read URL for name=${name} url=${url}")
 
-
     # process config.json dependencies first
     json_foreach("${dependencies}" "" setup_component_dependency ${name})
     # then any override deps_extra's
@@ -199,7 +204,6 @@ function(setup_component name parentName)
       setup_component_dependency(${kv} ${name})
     endforeach()
 
-    # coalesce AFTER getting new props to override commit
     json_coalesce_subprops("${configJson}" ref "repos" "${name}" PROPERTIES commit tag branch)
 
     get_component_props(${name} deps cmake_extra patch_command install_command)
