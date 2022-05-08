@@ -103,12 +103,12 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
 
-    # add_target(${name} LINK_LIBS lib [lib...])
+    # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
       cmake_parse_arguments(_sub "" "" "PROPERTIES" ${ARGN})
       
       foreach(arg IN LISTS _sub_PROPERTIES)
-        message(STATUS "${arg}")
+        message(STATUS ">>>>>>>>>>>>>>>>>>>>>>>> ${arg}")
       endforeach()
 
       # cmake_parse_arguments(_link_libs "" "" "LINK_LIBS" ${ARGN})
@@ -168,11 +168,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     
     # add_library(SPIRV-Tools-opt INTERFACE)
-    add_target(SPIRV-Tools-opt LINK_LIBS SPIRV-Tools SPIRV-Tools-opt)
-    add_target(SPIRV LINK_LIBS SPIRV)
-    add_target(HLSL LINK_LIBS HLSL)
-    add_target(OSDependent LINK_LIBS OSDependent)
-    add_target(OGLCompiler LINK_LIBS OGLCompiler)
+    add_target(SPIRV-Tools-opt PROPERTIES SPIRV-Tools SPIRV-Tools-opt)
+    add_target(SPIRV PROPERTIES SPIRV)
+    add_target(HLSL PROPERTIES HLSL)
+    add_target(OSDependent PROPERTIES OSDependent)
+    add_target(OGLCompiler PROPERTIES OGLCompiler)
 
     
 
