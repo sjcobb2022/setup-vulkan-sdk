@@ -148,7 +148,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv-tools")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/Include")
-    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/Public")
+    execute_process(COMMAND powershell "-Command" "cat ${CMAKE_INSTALL_PREFIX}/include/glslang/build_info.h")
+
+
 
 
 
