@@ -150,6 +150,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # execute_process(COMMAND powershell "-Command" "Get-ChildItem -Recurse -Filter 'GlslangToSpv.*'")
     find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/SPIRV )
 
+    if(${GlslangToSpv} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
+      message(FATAL_ERROR "Could not find file this sucks")
+    else()
+      message(STATUS "${GlslangToSpv}")
+    endif()
 
 
 
