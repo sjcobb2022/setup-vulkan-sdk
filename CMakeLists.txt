@@ -106,6 +106,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # add_target(${name} LINK_LIBS lib [lib...])
     function(add_target name include)
       cmake_parse_arguments(_sub "" "" "LINK_LIBS" ${ARGN})
+      
+      foreach(arg IN LISTS _sub_LINK_LIBS)
+        message(STATUS "${arg}")
+      endforeach()
+
       # cmake_parse_arguments(_link_libs "" "" "LINK_LIBS" ${ARGN})
       add_library(${name} INTERFACE)
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
@@ -115,6 +120,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       install(EXPORT ${name} DESTINATION lib/cmake)
 
       message(STATUS " >>>> This should message")
+      message(STATUS " >>>> ${ARGN}")
 
       foreach(arg IN LISTS _sub_LINK_LIBS)
         string(TOLOWER ${arg} lc_name)
