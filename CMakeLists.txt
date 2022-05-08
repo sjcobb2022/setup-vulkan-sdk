@@ -146,9 +146,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV")
-    execute_process(COMMAND powershell "-Command" "cat ${CMAKE_INSTALL_PREFIX}/include/glslang/build_info.h")
-    execute_process(COMMAND powershell "-Command" "Get-ChildItem -Recurse -Filter 'GlslangToSpv.*'")
-
+    # execute_process(COMMAND powershell "-Command" "cat ${CMAKE_INSTALL_PREFIX}/include/glslang/build_info.h")
+    # execute_process(COMMAND powershell "-Command" "Get-ChildItem -Recurse -Filter 'GlslangToSpv.*'")
+    find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/SPIRV )
 
 
 
