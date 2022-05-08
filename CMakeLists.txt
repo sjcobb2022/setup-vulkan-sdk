@@ -144,9 +144,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("${CMAKE_INSTALL_PREFIX}")
     ls_path("${CMAKE_INSTALL_PREFIX}/lib")
     ls_path("${CMAKE_INSTALL_PREFIX}/include")
-    ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv/1.2")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv-tools")
     ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/Include")
+    ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV")
 
 
 
