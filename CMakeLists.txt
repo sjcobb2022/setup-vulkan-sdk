@@ -108,7 +108,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
       # cmake_parse_arguments(_sub "" "" "PROPERTIES" ${ARGN})
       
-      foreach(arg IN LISTS ${_sub_PROPERTIES})
+      foreach(arg ${ARGN})
         # string(JSON value ERROR_VARIABLE jsonerror GET "${_json}" ${_sub_UNPARSED_ARGUMENTS} "${arg}")
         message(" >> >> >> >> >> >> Getting ${arg}")
         # set(${arg} ${value} PARENT_SCOPE)
