@@ -105,7 +105,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # add_target(${name} LINK_LIBS lib [lib...])
     function(add_target name include)
-      cmake_parse_arguments(_link_libs "" "" "LINK_LIBS" ${ARGN})
+      cmake_parse_arguments(_sub "" "" "LINK_LIBS" ${ARGN})
       # cmake_parse_arguments(_link_libs "" "" "LINK_LIBS" ${ARGN})
       add_library(${name} INTERFACE)
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
@@ -114,7 +114,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       install(TARGETS ${name} EXPORT ${name})
       install(EXPORT ${name} DESTINATION lib/cmake)
 
-      foreach(arg IN LISTS _link_libs_LINK_LIBS)
+      message(STATUS " >>>> This should message")
+
+      foreach(arg IN LISTS _sub_LINK_LIBS)
         string(TOLOWER ${arg} lc_name)
         message(STATUS "Processing ${name} for ${arg}")
         if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
@@ -150,17 +152,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # OGLCompiler
     # SPIRV)
 
-    # ls_path("${CMAKE_INSTALL_PREFIX}")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include/spirv")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/Include")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang/MachineIndependent")
-    # ls_path("${CMAKE_INSTALL_PREFIX}/share")
-
-    # execute_process(COMMAND powershell "-Command" "cat ${CMAKE_INSTALL_PREFIX}/include/glslang/build_info.h")
-    # execute_process(COMMAND powershell "-Command" "Get-ChildItem -Recurse -Filter 'GlslangToSpv.*'")  
     # find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.0 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.1 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.2 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/unified1)
 
     # if(${GlslangToSpv} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
