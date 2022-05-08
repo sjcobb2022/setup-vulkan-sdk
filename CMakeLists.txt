@@ -168,11 +168,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     
     # add_library(SPIRV-Tools-opt INTERFACE)
-    add_target(SPIRV-Tools-opt PROPERTIES SPIRV-Tools SPIRV-Tools-opt)
-    add_target(SPIRV PROPERTIES SPIRV)
-    add_target(HLSL PROPERTIES HLSL)
-    add_target(OSDependent PROPERTIES OSDependent)
-    add_target(OGLCompiler PROPERTIES OGLCompiler)
+    add_target(SPIRV-Tools-opt PROPERTIES "SPIRV-Tools" "SPIRV-Tools-opt")
+    add_target(SPIRV PROPERTIES "SPIRV")
+    add_target(HLSL PROPERTIES "HLSL")
+    add_target(OSDependent PROPERTIES "OSDependent")
+    add_target(OGLCompiler PROPERTIES "OGLCompiler")
 
     
 
