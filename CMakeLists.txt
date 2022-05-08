@@ -108,7 +108,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
       # cmake_parse_arguments(_sub "" "" "PROPERTIES" ${ARGN})
       
-      foreach(arg IN LISTS ${ARGN})
+      foreach(arg IN LISTS "${ARGN}")
         message(STATUS ">>>>>>>>>>>>>>>>>>>>>>>> ${arg}")
       endforeach()
 
