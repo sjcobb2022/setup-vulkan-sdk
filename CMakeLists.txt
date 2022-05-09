@@ -113,9 +113,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # OFF CACHE BOOL "" FORCE
 
-    set(SHADERC_SPIRV_TOOLS_DIR "" CACHE STRING "" FORCE)
-    set(SHADERC_SPIRV_HEADERS_DIR "" CACHE STRING "" FORCE)
-    set(SHADERC_GLSLANG_DIR "" CACHE STRING "" FORCE)
+    set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE STRING "" FORCE)
+    set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE STRING "" FORCE)
+    set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE STRING "" FORCE)
 
     # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
@@ -160,7 +160,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.0 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.1 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.2 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/unified1)
 
     ls_path(${CMAKE_BINARY_DIR})
-    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
+    # ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
     
     # add_library(SPIRV-Tools-opt INTERFACE)
 
