@@ -160,7 +160,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # endif()
 
     ls_path(${CMAKE_CURRENT_SOURCE_DIR})
-    ls_path(${CMAKE_INSTALL_PREFIX})
+    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
     
     # add_library(SPIRV-Tools-opt INTERFACE)
     add_target(SPIRV-Tools-opt PROPERTIES "SPIRV-Tools" "SPIRV-Tools-opt")
