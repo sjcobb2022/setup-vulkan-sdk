@@ -160,6 +160,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.0 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.1 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.2 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/unified1)
 
     ls_path(${CMAKE_BINARY_DIR})
+    ls_path(${PROJECT_SOURCE_DIR})
     # ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
     
     # add_library(SPIRV-Tools-opt INTERFACE)
