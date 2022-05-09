@@ -217,9 +217,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("./")
 
     message(STATUS "cat ./CMakeLists.txt")
-    execute_process(COMMAND powershell "-Command" "cat ./CMakeLists.txt")
+    execute_process(COMMAND powershell "-Command" "cat ../shaderc/CMakeLists.txt")
     message(STATUS "cat third_party/CMakeLists.txt")
-    execute_process(COMMAND powershell "-Command" "cat third_party/CMakeLists.txt")
+    execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
 
     # message(STATUS ">>>>>>>>> CREATE SYMLINKS FOR LIBS")
     # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
