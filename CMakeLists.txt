@@ -130,7 +130,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     message(STATUS "List Path : thirdparty")
 
-    ls_path("thirdparty")
+    ls_path("third_party")
 
     message(STATUS "List Path : shaderc-build")
 
