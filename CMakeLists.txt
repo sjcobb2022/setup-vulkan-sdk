@@ -216,7 +216,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     message(STATUS "listing current directory")
     ls_path("./")
 
-    message(STATUS ">>>>>>>>> CREATE SYMLINKS FOR LIBS")
+    message(STATUS "cat ./CMakeLists.txt")
+    execute_process(COMMAND bash "-c" "cat ./CMakeLists.txt")
+    message(STATUS "cat third_party/CMakeLists.txt")
+    execute_process(COMMAND bash "-c" "cat third_party/CMakeLists.txt")
+
+    # message(STATUS ">>>>>>>>> CREATE SYMLINKS FOR LIBS")
     # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
     # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
     # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
@@ -224,10 +229,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake)' | tee ./CMakeLists.txt && echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
-  message(STATUS "cat ./CMakeLists.txt")
-  execute_process(COMMAND bash "-c" "cat ./CMakeLists.txt")
-  message(STATUS "cat third_party/CMakeLists.txt")
-  execute_process(COMMAND bash "-c" "cat third_party/CMakeLists.txt")
+  
 endif()
 
 function(setup_component_dependency key value parentName)
