@@ -58,7 +58,7 @@ set_property(GLOBAL APPEND PROPERTY shaderc_deps_extra "SPIRV-Tools\;spirv-tools
 set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_SKIP_TESTS:BOOL=ON)
 set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
 set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_SKIP_COPYRIGHT_CHECK:BOOL=ON)
-set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_THIRD_PARTY_ROOT_DIR:FILEPATH=${VULKAN_SDK})
+# set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_THIRD_PARTY_ROOT_DIR:FILEPATH=${VULKAN_SDK})
 
 message(STATUS "cmake extra ${shaderc_cmake_extra}")
 
@@ -113,12 +113,32 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # OFF CACHE BOOL "" FORCE
 
+    # message(STATUS "Make directory shaderc_third_party")
+    # make_directory("../../../shaderc_third_party")
+    message(STATUS "List Path : _vulkan_build")
+    ls_path("../../../")
+
+    message(STATUS "Create symlinks from libs")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "third_party/spirv-headers")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "third_party/glslang")
+
+    message(STATUS "List Path : thirdparty")
+
+    ls_path("thirdparty")
+
+    message(STATUS "List Path : shaderc-build")
+
+    ls("./")
+
+    message(STATUS "Setting shaderc files")
+
     set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE STRING "" FORCE)
     set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE STRING "" FORCE)
     set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE STRING "" FORCE)
     set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE STRING "" FORCE)
-    set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang/glslang" CACHE STRING "" FORCE)
-    set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang/glslang" CACHE STRING "" FORCE)
+    set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE STRING "" FORCE)
+    set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang" CACHE STRING "" FORCE)
 
     # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
