@@ -150,6 +150,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     #   message(STATUS "${GlslangToSpv}")
     # endif()
 
+    ls_path(${CMAKE_CURRENT_SOURCE_DIR})
+    ls_path(${CMAKE_INSTALL_PREFIX})
     
     # add_library(SPIRV-Tools-opt INTERFACE)
     add_target(SPIRV-Tools-opt PROPERTIES "SPIRV-Tools" "SPIRV-Tools-opt")
@@ -254,9 +256,6 @@ foreach(name ${VULKAN_SDK_COMPONENTS})
   endif()
   setup_component(${name} "${name}")
 endforeach()
-
-ls_path(${CMAKE_CURRENT_SOURCE_DIR})
-ls_path(${CMAKE_INSTALL_PREFIX})
 
 message("===================================================================")
 message("VULKAN_SDK_COMPONENTS: ${VULKAN_SDK_COMPONENTS}")
