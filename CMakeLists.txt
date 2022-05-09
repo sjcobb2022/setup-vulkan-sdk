@@ -122,9 +122,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     ls_path("./")
 
-
     message(STATUS "Create symlinks from libs")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
@@ -134,7 +134,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     message(STATUS "List Path : shaderc-build")
 
-    ls_path("./")
+    ls_path(".")
 
     message(STATUS "Setting shaderc files")
 
@@ -194,12 +194,110 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang")
     ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang/glslang")
     ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang/glslang/Include")
-
     
     # add_library(SPIRV-Tools-opt INTERFACE)
 
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
+
+  file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
+
+    function(ls_path path)
+      if(WIN32)
+        execute_process(COMMAND powershell "-Command" "ls ${path}")
+      else()
+        execute_process(COMMAND bash "-c" "ls ${path}")
+      endif()
+    endfunction()
+
+    # OFF CACHE BOOL "" FORCE
+
+    # message(STATUS "Make directory shaderc_third_party")
+    # make_directory("../../../shaderc_third_party")
+    message(STATUS "List Path : _vulkan_build")
+    # ls_path("../../../")
+
+    # message(STATUS "List Path : shaderc-build")
+
+    ls_path(".")
+
+    message(STATUS ">>>>>>>>> CREATE SYMLINKS FOR LIBS")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
+
+    # message(STATUS "List Path : thirdparty")
+
+    # ls_path("third_party")
+
+    # message(STATUS "List Path : shaderc-build")
+
+    # ls_path(".")
+
+    # message(STATUS "Setting shaderc files")
+
+    # set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    # set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    # set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    # set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    # set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+    # set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+
+    # add_target(${name} PROPERTIES lib [lib...])
+    # function(add_target name include)
+
+    #   add_library(${name} INTERFACE)
+    #   set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
+    #   set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
+
+    #   install(TARGETS ${name} EXPORT ${name})
+    #   install(EXPORT ${name} DESTINATION lib/cmake)
+
+    #   message(STATUS " >>>> This should message")
+    #   message(STATUS " >>>> ${ARGN}")
+
+    #   foreach(arg ${ARGN})
+    #     string(TOLOWER ${arg} lc_name)
+    #     message(STATUS "Processing ${name} for ${arg}")
+    #     if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
+    #       message(STATUS "Path Exists ${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
+    #       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${lc_name} )
+    #     endif()
+        
+    #     if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
+    #       message(STATUS "Set INTERFACE_INCLUDE_DIRECTORIES for ${name} as ${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
+    #       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${name} )
+    #     endif()
+
+    #     string(RANDOM LENGTH 10 lib)
+    #     find_library(lib ${arg} PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
+    #     set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${lib})
+    #   endforeach()
+
+    # endfunction()
+
+    # set(GLSLANGLIBS
+    # glslang
+    # HLSL
+    # OSDependent
+    # OGLCompiler
+    # SPIRV)
+
+    # find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.0 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.1 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.2 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/unified1)
+
+    # ls_path(".")
+    # ls_path(${CMAKE_BINARY_DIR})
+    # ls_path(${PROJECT_SOURCE_DIR})
+    # ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
+    # ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang")
+    # ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang/glslang")
+    # ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang/glslang/Include")
+    
+    # add_library(SPIRV-Tools-opt INTERFACE)
+
+  ]====])
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake)' | tee CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
