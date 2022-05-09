@@ -161,9 +161,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     ls_path(${CMAKE_BINARY_DIR})
     ls_path(${PROJECT_SOURCE_DIR})
-    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/Glslang")
-    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/Glslang/glslang")
-    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/Glslang/glslang/Include")
+    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
+    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang")
+    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang/glslang")
+    ls_path("D:/a/rush.vk/rush.vk/_vulkan_build/Glslang-prefix/src/Glslang/glslang/Include")
 
     
     # add_library(SPIRV-Tools-opt INTERFACE)
