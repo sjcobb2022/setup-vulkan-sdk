@@ -11,6 +11,14 @@ function(json_get_subprops _json)
     endforeach()
 endfunction()
 
+function(ls_path path)
+  if(WIN32)
+    execute_process(COMMAND powershell "-Command" "ls ${path}")
+  else()
+    execute_process(COMMAND bash "-c" "ls ${path}")
+  endif()
+endfunction()
+
 # example: coalesce(VAR first second third) -> first truthy value found
 function(coalesce _outvar)
     list(FILTER ARGN EXCLUDE REGEX "-NOTFOUND|^$|^null$|^undefined$")

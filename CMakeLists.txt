@@ -143,16 +143,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       endforeach()
     endfunction()
 
-    function(ls_path path)
-      if(WIN32)
-        execute_process(COMMAND powershell "-Command" "ls ${path}")
-        # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/lib")
-        # execute_process(COMMAND powershell "-Command" "ls ${CMAKE_INSTALL_PREFIX}/include")
-      else()
-        execute_process(COMMAND bash "-c" "ls ${path}")
-      endif()
-    endfunction()
-
     # set(GLSLANGLIBS
     # glslang
     # HLSL
@@ -272,6 +262,9 @@ foreach(name ${VULKAN_SDK_COMPONENTS})
   endif()
   setup_component(${name} "${name}")
 endforeach()
+
+ls_path(${CMAKE_CURRENT_SOURCE_DIR})
+ls_path(${CMAKE_INSTALL_PREFIX})
 
 message("===================================================================")
 message("VULKAN_SDK_COMPONENTS: ${VULKAN_SDK_COMPONENTS}")
