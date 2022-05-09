@@ -62,7 +62,7 @@ set_property(GLOBAL APPEND PROPERTY shaderc_cmake_extra -DSHADERC_THIRD_PARTY_RO
 
 message(STATUS "cmake extra ${shaderc_cmake_extra}")
 
-set(CMAKE_BINARY_DIR C:/dev/rush.vk/build/_vulkan_build)
+# set(CMAKE_BINARY_DIR C:/dev/rush.vk/build/_vulkan_build)
 # set(CMAKE_BUILD C:/dev/rush.vk/build/_vulkan_build)
 
 
@@ -111,37 +111,43 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       endif()
     endfunction()
 
+    # OFF CACHE BOOL "" FORCE
+
+    set(SHADERC_SPIRV_TOOLS_DIR "" CACHE STRING "" FORCE)
+    set(SHADERC_SPIRV_HEADERS_DIR "" CACHE STRING "" FORCE)
+    set(SHADERC_GLSLANG_DIR "" CACHE STRING "" FORCE)
 
     # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
 
-      add_library(${name} INTERFACE)
-      set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-      set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
+    #   add_library(${name} INTERFACE)
+    #   set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
+    #   set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
 
-      install(TARGETS ${name} EXPORT ${name})
-      install(EXPORT ${name} DESTINATION lib/cmake)
+    #   install(TARGETS ${name} EXPORT ${name})
+    #   install(EXPORT ${name} DESTINATION lib/cmake)
 
-      message(STATUS " >>>> This should message")
-      message(STATUS " >>>> ${ARGN}")
+    #   message(STATUS " >>>> This should message")
+    #   message(STATUS " >>>> ${ARGN}")
 
-      foreach(arg ${ARGN})
-        string(TOLOWER ${arg} lc_name)
-        message(STATUS "Processing ${name} for ${arg}")
-        if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
-          message(STATUS "Path Exists ${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
-          set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${lc_name} )
-        endif()
+    #   foreach(arg ${ARGN})
+    #     string(TOLOWER ${arg} lc_name)
+    #     message(STATUS "Processing ${name} for ${arg}")
+    #     if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
+    #       message(STATUS "Path Exists ${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
+    #       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${lc_name} )
+    #     endif()
         
-        if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
-          message(STATUS "Set INTERFACE_INCLUDE_DIRECTORIES for ${name} as ${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
-          set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${name} )
-        endif()
+    #     if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
+    #       message(STATUS "Set INTERFACE_INCLUDE_DIRECTORIES for ${name} as ${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
+    #       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${name} )
+    #     endif()
 
-        string(RANDOM LENGTH 10 lib)
-        find_library(lib ${arg} PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-        set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${lib})
-      endforeach()
+    #     string(RANDOM LENGTH 10 lib)
+    #     find_library(lib ${arg} PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
+    #     set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${lib})
+    #   endforeach()
+
     endfunction()
 
     # set(GLSLANGLIBS
@@ -153,22 +159,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # find_file(GlslangToSpv NAMES "GlslangToSpv.h" HINTS ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.0 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.1 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/1.2 ${CMAKE_INSTALL_PREFIX}/include/SPIRV/unified1)
 
-    # if(${GlslangToSpv} MATCHES "-NOTFOUND|^$|^null$|^undefined$")
-    #   message(FATAL_ERROR "Could not find file this sucks")
-    # else()
-    #   message(STATUS "${GlslangToSpv}")
-    # endif()
-
-    ls_path(${CMAKE_CURRENT_SOURCE_DIR})
+    ls_path(${CMAKE_BINARY_DIR})
     ls_path("D:/a/rush.vk/rush.vk/_vulkan_build")
     
     # add_library(SPIRV-Tools-opt INTERFACE)
-    add_target(SPIRV-Tools-opt PROPERTIES "SPIRV-Tools" "SPIRV-Tools-opt")
-    add_target(SPIRV PROPERTIES "SPIRV")
-    add_target(HLSL PROPERTIES "HLSL")
-    add_target(OSDependent PROPERTIES "OSDependent")
-    add_target(OGLCompiler PROPERTIES "OGLCompiler")
-    
 
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
