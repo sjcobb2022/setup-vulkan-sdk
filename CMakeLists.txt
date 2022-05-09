@@ -103,16 +103,17 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
 
+    function(ls_path path)
+      if(WIN32)
+        execute_process(COMMAND powershell "-Command" "ls ${path}")
+      else()
+        execute_process(COMMAND bash "-c" "ls ${path}")
+      endif()
+    endfunction()
+
+
     # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
-
-      function(ls_path path)
-       if(WIN32)
-          execute_process(COMMAND powershell "-Command" "ls ${path}")
-        else()
-          execute_process(COMMAND bash "-c" "ls ${path}")
-        endif()
-      endfunction()
 
       add_library(${name} INTERFACE)
       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
