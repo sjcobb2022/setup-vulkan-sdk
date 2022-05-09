@@ -118,6 +118,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     message(STATUS "List Path : _vulkan_build")
     ls_path("../../../")
 
+    message(STATUS "List Path : shaderc-build")
+
+    ls_path("./")
+
+
     message(STATUS "Create symlinks from libs")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "third_party/spirv-headers")
@@ -129,16 +134,16 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     message(STATUS "List Path : shaderc-build")
 
-    ls("./")
+    ls_path("./")
 
     message(STATUS "Setting shaderc files")
 
-    set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE STRING "" FORCE)
-    set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE STRING "" FORCE)
-    set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE STRING "" FORCE)
-    set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE STRING "" FORCE)
-    set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE STRING "" FORCE)
-    set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang" CACHE STRING "" FORCE)
+    set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+    set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
 
     # add_target(${name} PROPERTIES lib [lib...])
     function(add_target name include)
