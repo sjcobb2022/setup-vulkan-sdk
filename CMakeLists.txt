@@ -132,10 +132,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path("./")
 
     # message(STATUS "Create symlinks from libs")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
     # message(STATUS "List Path : thirdparty")
 
@@ -210,12 +210,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
 
-  ls_path(".")
-
-  # file(READ "${CMAKE_BINARY_DIR}/shaderc_patch.cmake" path1)
-  # file(READ "third_party/CMakeLists.txt" path2)
-  # file(WRITE "third_party/CMakeLists.txt" ${path1}${path2})
-
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/third_party/CMakeLists.txt)\" > third_party/CMakeLists.txt")
 
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
@@ -244,7 +238,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
   ]====])
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake)' | tee ./CMakeLists.txt && echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
+  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/third_party/CMakeLists.txt)\" > third_party/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
