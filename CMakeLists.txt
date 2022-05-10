@@ -152,15 +152,15 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "List Path : shaderc-build")
 
-    ls_path(".")
-    ls_path("..")
-    ls_path("../..")
-
+    ls_path(.)
+    ls_path(..)
+    ls_path(../..)
+    ls_path(../../..)
 
     # message(STATUS "Setting shaderc files")
 
-    set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
-    set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    set(SHADERC_SPIRV_TOOLS_DIR ../../../SPIRV-Tools-prefix/src/SPIRV-Tools CACHE FILEPATH "" FORCE)
+    set(spirv-tools_SOURCE_DIR ../../../SPIRV-Tools-prefix/src/SPIRV-Tools CACHE FILEPATH "" FORCE)
     set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
