@@ -139,6 +139,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "List Path : thirdparty")
 
+    execute_process(COMMAND bash "-c" "cat third_party/CMakeLists.txt")
+
     # ls_path("third_party")
 
     # message(STATUS "List Path : shaderc-build")
