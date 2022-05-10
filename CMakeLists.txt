@@ -31,6 +31,13 @@ macro(_assert varname)
   endif()
 endmacro()
 
+function(ls_path path)
+  if(WIN32)
+    execute_process(COMMAND powershell "-Command" "ls ${path}")
+  else()
+    execute_process(COMMAND bash "-c" "ls ${path}")
+  endif()
+endfunction()
 
 _assert(VULKAN_SDK "define -DVULKAN_SDK=<path> to desired VULKAN_SDK installation folder")
 _assert(VULKAN_SDK_CONFIG "define -DVULKAN_SDK_CONFIG=<file> to Vulkan SDK config.json")
@@ -120,7 +127,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     message(STATUS "List Path : _vulkan_build")
     ls_path("../../../")
 
-    message(STATUS "List Path : shaderc-build")
+    # message(STATUS "List Path : shaderc-build")
 
     ls_path("./")
 
@@ -200,6 +207,15 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # add_library(SPIRV-Tools-opt INTERFACE)
 
   ]====])
+
+  message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+  ls_path(".")
+
+  # file(READ "${CMAKE_BINARY_DIR}/shaderc_patch.cmake" path1)
+  # file(READ "third_party/CMakeLists.txt" path2)
+  # file(WRITE "third_party/CMakeLists.txt" ${path1}${path2})
+
   # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
 
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
@@ -228,8 +244,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
   ]====])
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake)' | tee ./CMakeLists.txt && echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
-  
+  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake)' | tee ./CMakeLists.txt && echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
