@@ -248,6 +248,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     ls_path("../shaderc/")
     ls_path("../shaderc/third_party")
+    ls_path("../shaderc/third_party/spirv-tools")
+
 
 
   ]====])
