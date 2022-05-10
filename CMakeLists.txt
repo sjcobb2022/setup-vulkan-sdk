@@ -156,12 +156,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "Setting shaderc files")
 
-    # set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
-    # set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
-    # set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
-    # set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
-    # set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
-    # set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+    set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    set(spirv-tools_SOURCE_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    set(SHADERC_GLSLANG_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+    set(glslang_SOURCE_DIR "../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
 
     # add_target(${name} PROPERTIES lib [lib...])
     # function(add_target name include)
@@ -217,44 +217,22 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
 
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/third_party/CMakeLists.txt)\" > third_party/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/third_party/CMakeLists.txt)\" > ../shaderc/third_party/CMakeLists.txt")
 
-  file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
+  # file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
 
-    function(ls_path path)
-      if(WIN32)
-        execute_process(COMMAND powershell "-Command" "ls ${path}")
-      else()
-        execute_process(COMMAND bash "-c" "ls ${path}")
-      endif()
-    endfunction()
+  #   function(ls_path path)
+  #     if(WIN32)
+  #       execute_process(COMMAND powershell "-Command" "ls ${path}")
+  #     else()
+  #       execute_process(COMMAND bash "-c" "ls ${path}")
+  #     endif()
+  #   endfunction()
 
-    message(STATUS "======================== SHADER_PATCH 2 =====================")
-    # message(STATUS "listing current directory")
-    # ls_path("./")
+  #   message(STATUS "======================== SHADER_PATCH 2 =====================")
 
-    # message(STATUS "cat ../shaderc/CMakeLists.txt")
-    # execute_process(COMMAND powershell "-Command" "cat ../shaderc/CMakeLists.txt")
-    # message(STATUS "cat third_party/CMakeLists.txt")
-    # execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
-
-    ls_path(".")
-    
-
-    message(STATUS ">>>>>>>>> CREATE SYMLINKS FOR LIBS")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
-
-    ls_path("../shaderc/")
-    ls_path("../shaderc/third_party")
-    ls_path("../shaderc/third_party/spirv-tools")
-
-
-
-  ]====])
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt")
+  # ]====])
+  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
