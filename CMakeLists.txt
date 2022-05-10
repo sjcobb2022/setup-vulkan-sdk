@@ -152,7 +152,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "List Path : shaderc-build")
 
-    # ls_path(".")
+    ls_path(".")
+    ls_path("..")
+    ls_path("../..")
+
 
     # message(STATUS "Setting shaderc files")
 
