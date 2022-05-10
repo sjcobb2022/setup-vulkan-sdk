@@ -141,7 +141,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
 
-    # ls_path("third_party")
+    ls_path("third_party")
+    ls_path("third_party/spirv-tools")
+    ls_path("../shaderc/third_party/spirv-tools")
+
 
     # message(STATUS "List Path : shaderc-build")
 
