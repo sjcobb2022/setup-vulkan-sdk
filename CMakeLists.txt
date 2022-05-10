@@ -246,7 +246,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
-    ls_path("../shaderc/third_party/spirv-tools")
+    ls_path("../shaderc/")
+    ls_path("../shaderc/third_party")
+
 
   ]====])
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt")
