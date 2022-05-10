@@ -139,7 +139,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "List Path : thirdparty")
 
-    execute_process(COMMAND powershell "-Command" "cat third_party/CMakeLists.txt")
+    execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
 
     # ls_path("third_party")
 
