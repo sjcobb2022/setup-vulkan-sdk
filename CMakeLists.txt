@@ -110,7 +110,7 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
 
-    message(STATUS "======================== SHADER PATCH 1 =====================")
+    # message(STATUS "======================== SHADER PATCH 1 =====================")
 
     function(ls_path path)
       if(WIN32)
@@ -127,27 +127,27 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # message(STATUS "List Path : _vulkan_build")
     # ls_path("../../../")
 
-    message(STATUS "List Path : shaderc-build")
+    # message(STATUS "List Path : shaderc-build")
 
-    ls_path(".")
+    # ls_path(".")
 
-    ls_path("../../..")
+    # ls_path("../../..")
 
-    ls_path("../../../SPIRV-Tools-prefix")
+    # ls_path("../../../SPIRV-Tools-prefix")
 
     # message(STATUS "Create symlinks from libs")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
+    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
     # message(STATUS "List Path : thirdparty")
 
-    execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
+    # execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
 
-    ls_path("third_party")
-    ls_path("third_party/spirv-tools")
-    ls_path("../shaderc/third_party")
+    # ls_path("third_party")
+    # ls_path("third_party/spirv-tools")
+    # ls_path("../shaderc/third_party")
 
 
     # message(STATUS "List Path : shaderc-build")
@@ -230,22 +230,22 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endfunction()
 
     message(STATUS "======================== SHADER_PATCH 2 =====================")
-    message(STATUS "listing current directory")
-    ls_path("./")
+    # message(STATUS "listing current directory")
+    # ls_path("./")
 
-    message(STATUS "cat ../shaderc/CMakeLists.txt")
-    execute_process(COMMAND powershell "-Command" "cat ../shaderc/CMakeLists.txt")
-    message(STATUS "cat third_party/CMakeLists.txt")
-    execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
+    # message(STATUS "cat ../shaderc/CMakeLists.txt")
+    # execute_process(COMMAND powershell "-Command" "cat ../shaderc/CMakeLists.txt")
+    # message(STATUS "cat third_party/CMakeLists.txt")
+    # execute_process(COMMAND powershell "-Command" "cat ../shaderc/third_party/CMakeLists.txt")
 
     # message(STATUS ">>>>>>>>> CREATE SYMLINKS FOR LIBS")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
-    # execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "../shaderc/third_party/spirv-tools")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" "third_party/spirv-tools")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" "../shaderc/third_party/spirv-headers")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "../../../Glslang-prefix/src/Glslang" "../shaderc/third_party/glslang")
 
   ]====])
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/third_party/CMakeLists.txt)\" > third_party/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
