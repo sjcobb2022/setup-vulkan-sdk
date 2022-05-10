@@ -208,15 +208,13 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
 
-  message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
   ls_path(".")
 
   # file(READ "${CMAKE_BINARY_DIR}/shaderc_patch.cmake" path1)
   # file(READ "third_party/CMakeLists.txt" path2)
   # file(WRITE "third_party/CMakeLists.txt" ${path1}${path2})
 
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)' | tee third_party/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\n$(cat third_party/CMakeLists.txt)' > third_party/CMakeLists.txt")
 
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
 
