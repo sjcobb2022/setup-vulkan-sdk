@@ -147,7 +147,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     ls_path("third_party")
     ls_path("third_party/spirv-tools")
-    ls_path("../shaderc/third_party/spirv-tools")
+    ls_path("../shaderc/third_party")
 
 
     # message(STATUS "List Path : shaderc-build")
