@@ -125,7 +125,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     ls_path(${CMAKE_BINARY_DIR})
 
-    find_library(SPIRV-Tools SPIRV-Tools)
+    find_library(SPIRV-Tools SPIRV-Tools REQUIRED)
+    find_library(SPIRV-Tools-opt SPIRV-Tools-opt REQUIRED)
 
     # set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     # set(spirv-tools_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
