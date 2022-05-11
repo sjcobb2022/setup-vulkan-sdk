@@ -159,7 +159,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "Setting shaderc files")
 
-    set(SHADERC_SPIRV_TOOLS_DIR ../../../SPIRV-Tools-prefix/src/SPIRV-Tools CACHE FILEPATH "" FORCE)
+    ls_path(${CMAKE_BINARY_DIR})
+    ls_path(${CMAKE_CURRENT_BINARY_DIR})
+    ls_path(${CMAKE_INSTALL_PREFIX})
+
+
+    set(SHADERC_SPIRV_TOOLS_DIR "../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     set(spirv-tools_SOURCE_DIR ../../../SPIRV-Tools-prefix/src/SPIRV-Tools CACHE FILEPATH "" FORCE)
     set(SHADERC_SPIRV_HEADERS_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     set(SPIRV-Headers_SOURCE_DIR "../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
