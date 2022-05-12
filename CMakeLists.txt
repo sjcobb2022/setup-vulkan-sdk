@@ -131,6 +131,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     ls_path(${CMAKE_INSTALL_PREFIX}/lib)
     ls_path(${CMAKE_INSTALL_PREFIX}/include)
+    ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv-tools)
 
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
