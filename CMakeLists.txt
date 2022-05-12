@@ -135,7 +135,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # ls_path(${CMAKE_INSTALL_PREFIX}/include)
     # ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv-tools)
 
-    ls_path(${CMAKE_INSTALL_BINDIR})
+    ls_path(${CMAKE_INSTALL_DIR}/)
 
     include(FindPackageHandleStandardArgs)
     include(SelectLibraryConfigurations)
@@ -151,7 +151,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     find_library(SPIRV_LIBRARY_DEBUG NAMES SPIRVd PATH_SUFFIXES DEBUG/lib)
     find_library(HLSL_LIBRARY_DEBUG NAMES HLSLd PATH_SUFFIXES DEBUG/lib)
     find_path(GLSLANG_INCLUDE_DIR NAMES glslang/Public/ShaderLang.h PATH_SUFFIXES include)
-    find_path(SPIRV_INCLUDE_DIR NAMES SPIRV/spirv.hpp PATH_SUFFIXES include)
+    find_path(SPIRV_INCLUDE_DIR NAMES SPIRV/spirv.hpp HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/glslang PATH_SUFFIXES include)
     find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator PATH_SUFFIXES bin)
     
     select_library_configurations(GLSLANG)
