@@ -212,6 +212,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set(SPIRV-Headers_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
     set(glslang_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+    
+    if(MSVC)
+      set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
+    endif()
 
     # add_target(${name} PROPERTIES lib [lib...])
     # function(add_target name include)
