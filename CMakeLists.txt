@@ -243,32 +243,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_target_properties(glslang::SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${SPIRV_INCLUDE_DIR})
     target_link_libraries(glslang::SPIRV INTERFACE glslang)
 
-    message(STATUS "")
-
-    if(glslang)
-      message(STATUS "FOUND glslang: glslang")
-      message(STATUS "glslang: ${glslang}")
-      message(STATUS "glslang: ${glslang::glslang}")
-    endif()
-
-    if(${glslang})
-      message(STATUS "FOUND glslang: \$\{glslang\}")
-      message(STATUS "glslang: ${glslang}")
-      message(STATUS "glslang: ${glslang::glslang}")
-    endif()
-
-    if(glslang::glslang)
-      message(STATUS "FOUND glslang: glslang::glslang")
-      message(STATUS "glslang: ${glslang}")
-      message(STATUS "glslang: ${glslang::glslang}")
-    endif()
-
-    if(${glslang::glslang})
-      message(STATUS "FOUND glslang: \$\{glslang::glslang\}")
-      message(STATUS "glslang: ${glslang}")
-      message(STATUS "glslang: ${glslang::glslang}")
-    endif()
-
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
         GLSLANG_VALIDATOR_EXE
