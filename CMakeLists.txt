@@ -259,6 +259,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   execute_process(COMMAND wsl "-e" "awk \'/target_link_libraries(glslangValidator \$\{LIBRARIES\})/ { print; print \"message(STATUS \"Got past the library link\")\"; next }1\' ${CMAKE_BINARY_DIR}/Glslang-prefix/src/Glslang/StandAlone/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
 
+  
   # file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
 
   #   function(ls_path path)
