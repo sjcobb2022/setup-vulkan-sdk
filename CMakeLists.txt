@@ -114,15 +114,15 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
 
-    # message(STATUS "======================== SHADER PATCH 1 =====================")
+    message(STATUS "======================== SHADER PATCH 1 =====================")
 
-    # function(ls_path path)
-    #   if(WIN32)
-    #     execute_process(COMMAND powershell "-Command" "ls ${path}")
-    #   else()
-    #     execute_process(COMMAND bash "-c" "ls ${path}")
-    #   endif()
-    # endfunction()
+    function(ls_path path)
+      if(WIN32)
+        execute_process(COMMAND powershell "-Command" "ls ${path}")
+      else()
+        execute_process(COMMAND bash "-c" "ls ${path}")
+      endif()
+    endfunction()
 
     # ls_path(${CMAKE_BINARY_DIR})
 
