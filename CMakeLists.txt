@@ -171,7 +171,15 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       SPIRV_INCLUDE_DIR
     )
 
-    add_library(glslang::OGLCompiler STATIC IMPORTED ALIAS OGLCompiler)
+    message(STATUS "glslang: GLSLANG_LIBRARY")
+    message(STATUS "glslang: OGLCOMPILER_LIBRARY")
+    message(STATUS "glslang: OSDEPENDENT_LIBRARY")
+    message(STATUS "glslang: SPIRV_LIBRARY")
+    message(STATUS "glslang: HLSL_LIBRARY")
+    message(STATUS "glslang: GLSLANG_INCLUDE_DIR")
+    message(STATUS "glslang: SPIRV_INCLUDE_DIR")
+
+    add_library(glslang::OGLCompiler STATIC IMPORTED)
     if(OGLCOMPILER_LIBRARY_RELEASE)
         set_property(TARGET glslang::OGLCompiler APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(glslang::OGLCompiler PROPERTIES
@@ -183,7 +191,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${OGLCOMPILER_LIBRARY_DEBUG})
     endif()
 
-    add_library(glslang::OSDependent STATIC IMPORTED ALIAS OSDependent)
+    add_library(glslang::OSDependent STATIC IMPORTED)
     if(OSDEPENDENT_LIBRARY_RELEASE)
         set_property(TARGET glslang::OSDependent APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(glslang::OSDependent PROPERTIES
@@ -195,7 +203,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${OSDEPENDENT_LIBRARY_DEBUG})
     endif()
 
-    add_library(glslang::HLSL STATIC IMPORTED ALIAS HLSL)
+    add_library(glslang::HLSL STATIC IMPORTED)
     if(HLSL_LIBRARY_RELEASE)
         set_property(TARGET glslang::HLSL APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(glslang::HLSL PROPERTIES
@@ -207,7 +215,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${HLSL_LIBRARY_DEBUG})
     endif()
 
-    add_library(glslang::glslang STATIC IMPORTED ALIAS glslang)
+    add_library(glslang::glslang STATIC IMPORTED)
     if(GLSLANG_LIBRARY_RELEASE)
         set_property(TARGET glslang::glslang APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(glslang::glslang PROPERTIES
@@ -221,7 +229,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_target_properties(glslang::glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${GLSLANG_INCLUDE_DIR})
     target_link_libraries(glslang::glslang INTERFACE glslang::OGLCompiler glslang::OSDependent glslang::HLSL)
 
-    add_library(glslang::SPIRV STATIC IMPORTED ALIAS SPIRV)
+    add_library(glslang::SPIRV STATIC IMPORTED)
     if(SPIRV_LIBRARY_RELEASE)
         set_property(TARGET glslang::SPIRV APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(glslang::SPIRV PROPERTIES
@@ -234,6 +242,14 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
     set_target_properties(glslang::SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${SPIRV_INCLUDE_DIR})
     target_link_libraries(glslang::SPIRV INTERFACE glslang::glslang)
+
+    message(STATUS "")
+
+    if(glslang)
+      message(STATUS "FOUND glslang")
+      message(STATUS "glslang: ${glslang}")
+      message(STATUS "glslang: ${glslang::glslang}")
+    endif()
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
@@ -261,7 +277,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-
 
     # add_library(SPIRV-Tools-opt INTERFACE)
     # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
