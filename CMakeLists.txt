@@ -376,6 +376,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     get_target_property(_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES SPIRV-Tools INTERFACE_INCLUDE_DIRECTORIES)
 
+    install(TARGETS SPIRV-Tools EXPORT SPIRV-Tools)
+    install(EXPORT SPIRV-Tools DESTINATION lib/cmake)
+
+    message(STATUS "${_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES}")
+
     # find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-opt PATH_SUFFIXES DEBUG/lib)
     # find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt PATH_SUFFIXES lib)
 
@@ -401,8 +406,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     
     ls_path(${spirv-tools_SOURCE_DIR})
     ls_path(${spirv-tools_SOURCE_DIR}/include)   
-    ls_path(${spirv-tools_SOURCE_DIR}/SPIRV-Tools)
-    ls_path(${CMAKE_INSTALL_PREFIX}/libs/cmake)
+    # ls_path(${spirv-tools_SOURCE_DIR}/SPIRV-Tools)
+    # ls_path(${CMAKE_INSTALL_PREFIX}/libs/cmake)
 
     # add_library(SPIRV-Tools INTERFACE)
     # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
