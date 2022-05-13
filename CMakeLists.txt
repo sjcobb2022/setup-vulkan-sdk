@@ -226,7 +226,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
         set_target_properties(glslang PROPERTIES
             IMPORTED_LOCATION_DEBUG ${GLSLANG_LIBRARY_DEBUG})
     endif()
-    set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${GLSLANG_INCLUDE_DIR})
+    set_target_properties(glslang PROPERTIES APPEND INTERFACE_INCLUDE_DIRECTORIES ${GLSLANG_INCLUDE_DIR} ${GLSLANG_INCLUDE_DIR}/../Include)
     target_link_libraries(glslang INTERFACE glslang::OGLCompiler glslang::OSDependent glslang::HLSL)
 
     add_library(glslang::SPIRV STATIC IMPORTED)
