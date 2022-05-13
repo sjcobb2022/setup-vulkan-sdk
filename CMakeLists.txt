@@ -150,8 +150,19 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     find_library(SPIRV_TOOLS_LIBRARY_DEBUG NAMES SPIRV-Tools PATH_SUFFIXES DEBUG/lib)
     find_library(SPIRV_TOOLS_LIBRARY_RELEASE NAMES SPIRV-Tools PATH_SUFFIXES lib)
     find_path(SPIRV_TOOLS_INCLUDE_DIR NAMES spirv-tools/libspirv.h HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/spirv-tools PATH_SUFFIXES include)
-
+    find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-opt PATH_SUFFIXES DEBUG/lib)
+    find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt PATH_SUFFIXES lib)
+    
     select_library_configurations(SPIRV_TOOLS)
+    select_library_configurations(SPIRV_TOOLS_OPT)
+
+    find_package_handle_standard_args(
+      SPIRV-Tools
+      DEFAULT_MSG
+      SPIRV_TOOLS_LIBRARY
+      SPIRV_TOOLS_OPT_LIBRARY
+      SPIRV_TOOLS_INCLUDE_DIR
+    )
 
     add_library(SPIRV-Tools STATIC IMPORTED)
 
@@ -178,11 +189,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     if(NOT TARGET SPIRV-Tools)
       message(STATUS " >>>>>>>>>>>>>>>>>> SPIRV-Tools is NOT a target")
     endif()
-
-    # find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-opt PATH_SUFFIXES DEBUG/lib)
-    # find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt PATH_SUFFIXES lib)
-
-    # select_library_configurations(SPIRV_TOOLS_OPT)
 
     # add_library(SPIRV-Tools-opt STATIC IMPORTED)
 
