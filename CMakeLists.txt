@@ -226,7 +226,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
         set_target_properties(glslang PROPERTIES
             IMPORTED_LOCATION_DEBUG ${GLSLANG_LIBRARY_DEBUG})
     endif()
-    set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
+    # set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
+    set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
+    set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang )
+    set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang/Public )
+    set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang/Include )
     target_link_libraries(glslang INTERFACE glslang::OGLCompiler glslang::OSDependent glslang::HLSL)  
 
     add_library(glslang::SPIRV STATIC IMPORTED)
