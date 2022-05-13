@@ -190,23 +190,22 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       message(STATUS " >>>>>>>>>>>>>>>>>> SPIRV-Tools is NOT a target")
     endif()
 
-    # add_library(SPIRV-Tools-opt STATIC IMPORTED)
+    add_library(SPIRV-Tools-opt STATIC IMPORTED)
 
-    # if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
-    #     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
-    #     set_target_properties(SPIRV-Tools PROPERTIES
-    #         IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
-    # endif()
-    # if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
-    #     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-    #     set_target_properties(SPIRV-Tools-opt PROPERTIES
-    #         IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
-    # endif()
+    if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
+      set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+      set_target_properties(SPIRV-Tools PROPERTIES
+        IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
+    endif()
+    if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
+        set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+        set_target_properties(SPIRV-Tools-opt PROPERTIES
+            IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
+    endif()
 
     # set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
-
+    target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
 
     find_library(GLSLANG_LIBRARY_RELEASE NAMES glslang PATH_SUFFIXES lib)
     find_library(OGLCOMPILER_LIBRARY_RELEASE NAMES OGLCompiler PATH_SUFFIXES lib)
@@ -310,7 +309,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
         set_target_properties(SPIRV PROPERTIES
             IMPORTED_LOCATION_DEBUG ${SPIRV_LIBRARY_DEBUG})
     endif()
+
+    message(STATUS "SPIRV_INCLUDE_DIR: ${SPIRV_INCLUDE_DIR}")
+
     set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${SPIRV_INCLUDE_DIR})
+
     target_link_libraries(SPIRV INTERFACE glslang)
 
     find_package_handle_standard_args(glslangValidator
