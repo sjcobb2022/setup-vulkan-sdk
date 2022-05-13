@@ -279,7 +279,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(SPIRV-Tools STATIC IMPORTED)
 
     message(STATUS "Found spirv tools include: ${SPIRV_TOOLS_INCLUDE_DIR}")
-
     if(SPIRV_TOOLS_LIBRARY_RELEASE)
         set_property(TARGET SPIRV-Tools APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(SPIRV-Tools PROPERTIES
@@ -291,7 +290,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_LIBRARY_DEBUG})
     endif()
 
-    set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
+    set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
 
     find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-opt PATH_SUFFIXES DEBUG/lib)
     find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt PATH_SUFFIXES lib)
@@ -313,7 +312,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
-
 
     # add_library(SPIRV-Tools INTERFACE)
     # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
@@ -406,7 +404,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set(glslang_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
 
     ls_path(${spirv-tools_SOURCE_DIR})
-    ls_path(${spirv-tools_SOURCE_DIR}/include
+    ls_path(${spirv-tools_SOURCE_DIR}/include)
     
     # if(MSVC)
     #   set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
