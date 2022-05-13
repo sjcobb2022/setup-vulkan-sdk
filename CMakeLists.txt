@@ -294,8 +294,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${GLSLANG_LIBRARY_DEBUG})
     endif()
 
-    set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
-
+    set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include ${CMAKE_INSTALL_PREFIX}/include/glslang)
+    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang )
     target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL)  
 
     add_library(SPIRV STATIC IMPORTED)
@@ -333,171 +333,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # )
 
     # ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv-tools)
-
-    # if(NOT TARGET SPIRV-Tools)
-    #   find_package(SPIRV-Tools CONFIG QUIET)
-    # endif()
-
-    # # if(TARGET SPIRV-Tools)
-    #   if(NOT TARGET SPIRV-Tools-opt)
-    #     find_package(SPIRV-Tools-opt CONFIG REQUIRED)
-    #   endif()
-
-    #   get_target_property(_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES SPIRV-Tools INTERFACE_INCLUDE_DIRECTORIES)
-    #   if(_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES MATCHES "<BUILD_INTERFACE:")
-    #     get_target_property(_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES SPIRV-Tools SOURCE_DIR)
-    #     get_filename_component(_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES ${_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES} DIRECTORY)
-    #     set(_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES ${_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES}/include)
-    #     set(_SPIRVTOOLS_NEEDS_INCLUDE ON)
-    #   endif()
-
-    #   if(NOT TARGET SpirvTools::SpirvTools)
-    #     # Aliases of (global) targets are only supported in CMake 3.11, so we
-    #     # work around it by this. This is easier than fetching all possible
-    #     # properties (which are impossible to track of) and then attempting to
-    #     # rebuild them into a new target.
-    #     add_library(SpirvTools::SpirvTools INTERFACE IMPORTED)
-    #     set_target_properties(SpirvTools::SpirvTools PROPERTIES INTERFACE_LINK_LIBRARIES SPIRV-Tools)
-
-    #     # If we have a CMake subproject, this needs to be done otherwise the
-    #     # includes won't be found
-    #     if(_SPIRVTOOLS_NEEDS_INCLUDE)
-    #         set_target_properties(SpirvTools::SpirvTools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${_SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES})
-    #     endif()
-    #   endif()
-
-    #   if(NOT TARGET SpirvTools::Opt)
-    #     # Aliases of (global) targets [..] CMake 3.11 [...], as above
-    #     add_library(SpirvTools::Opt INTERFACE IMPORTED)
-    #     set_target_properties(SpirvTools::Opt PROPERTIES INTERFACE_LINK_LIBRARIES SPIRV-Tools-opt)
-    #   endif()
-
-    #   # Just to make FPHSA print some meaningful location, nothing else. Luckily
-    #   # we can just reuse what we had to find above.
-    #   include(FindPackageHandleStandardArgs)
-    #   find_package_handle_standard_args("SpirvTools" DEFAULT_MSG
-    #       _SPIRVTOOLS_INTERFACE_INCLUDE_DIRECTORIES)
-
-    #   return()
     
-    # endif()
-
-    # find_library(SpirvTools_LIBRARY NAMES SPIRV-Tools)
-    # find_library(SpirvTools_Opt_LIBRARY NAMES SPIRV-Tools-opt)
-
-    # find_path(SpirvTools_INCLUDE_DIR
-    # NAMES spirv-tools/libspirv.h)
-
-    # include(FindPackageHandleStandardArgs)
-    # find_package_handle_standard_args(SpirvTools DEFAULT_MSG
-    #     SpirvTools_LIBRARY
-    #     SpirvTools_INCLUDE_DIR)
-
-    # mark_as_advanced(FORCE
-    #     SpirvTools_LIBRARY
-    #     SpirvTools_INCLUDE_DIR)
-    
-    # if(NOT TARGET SpirvTools::SpirvTools)
-    #   add_library(SpirvTools::SpirvTools UNKNOWN IMPORTED)
-    #   set_target_properties(SpirvTools::SpirvTools PROPERTIES
-    #       IMPORTED_LOCATION ${SpirvTools_LIBRARY}
-    #       INTERFACE_INCLUDE_DIRECTORIES ${SpirvTools_INCLUDE_DIR})
-    # endif()
-
-    # if(NOT TARGET SpirvTools::Opt)
-    #   add_library(SpirvTools::Opt UNKNOWN IMPORTED)
-    #   set_target_properties(SpirvTools::Opt PROPERTIES
-    #       IMPORTED_LOCATION ${SpirvTools_Opt_LIBRARY}
-    #       INTERFACE_LINK_LIBRARIES SpirvTools::SpirvTools)
-    # endif()
-    
-    ls_path(${spirv-tools_SOURCE_DIR})
-    ls_path(${spirv-tools_SOURCE_DIR}/include)   
+    # ls_path(${spirv-tools_SOURCE_DIR})
+    # ls_path(${spirv-tools_SOURCE_DIR}/include)   
     # ls_path(${spirv-tools_SOURCE_DIR}/SPIRV-Tools)
     # ls_path(${CMAKE_INSTALL_PREFIX}/libs/cmake)
-
-    # add_library(SPIRV-Tools INTERFACE)
-    # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # install(TARGETS SPIRV-Tools EXPORT SPIRV-Tools)
-    # install(EXPORT SPIRV-Tools DESTINATION lib/cmake)
-    # set(spirv_tools NOTFOUND)
-    # set(spirv_tools_opt NOTFOUND)
-    # find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-
-    # add_library(SPIRV-Tools-opt INTERFACE)
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-opt)
-    # install(EXPORT SPIRV-Tools-opt DESTINATION lib/cmake)
-    # set(spirv_tools_opt NOTFOUND)
-    # find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt})
-
-    # add_library(SPIRV-Tools INTERFACE)
-    # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # install(TARGETS SPIRV-Tools EXPORT SPIRV-Tools)
-    # install(EXPORT SPIRV-Tools DESTINATION lib/cmake)
-    # set(spirv_tools NOTFOUND)
-    # set(spirv_tools_opt NOTFOUND)
-    # find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET SPIRV-Tools APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools} ${spirv_tools_opt})
-
-    # add_library(glslang INTERFACE)
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang )
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang/Public )
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang/Include )
-    # install(TARGETS glslang EXPORT glslang)
-    # install(EXPORT glslang DESTINATION lib/cmake)
-    # set(Glslang NOTFOUND)
-    # find_library(Glslang glslang PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${Glslang})
-
-    # ls_path("${CMAKE_INSTALL_PREFIX}/include/glslang")
-
-    # add_library(HLSL INTERFACE)
-    # set_property(TARGET HLSL APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET HLSL APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # set_property(TARGET HLSL APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang )
-    # install(TARGETS HLSL EXPORT HLSL)
-    # install(EXPORT HLSL DESTINATION lib/cmake)
-    # set(hlsl NOTFOUND)
-    # find_library(hlsl HLSL PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET HLSL APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${hlsl})
-
-    # add_library(OSDependent INTERFACE)
-    # set_property(TARGET OSDependent APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # install(TARGETS OSDependent EXPORT OSDependent)
-    # install(EXPORT OSDependent DESTINATION lib/cmake)
-    # set(osdependent NOTFOUND)
-    # find_library(osdependent OSDependent PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET OSDependent APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${osdependent})
-
-    # add_library(OGLCompiler INTERFACE)
-    # set_property(TARGET OGLCompiler APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # install(TARGETS OGLCompiler EXPORT OGLCompiler)
-    # install(EXPORT OGLCompiler DESTINATION lib/cmake)
-    # set(oglcompiler NOTFOUND)
-    # find_library(oglcompiler OGLCompiler PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET OGLCompiler APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${oglcompiler})
-
-    # add_library(SPIRV INTERFACE)
-    # set_property(TARGET SPIRV APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET SPIRV APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # set_property(TARGET SPIRV APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang )
-    # install(TARGETS SPIRV EXPORT SPIRV)
-    # install(EXPORT SPIRV DESTINATION lib/cmake)
-    # set(spirv NOTFOUND)
-    # find_library(spirv SPIRV PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET SPIRV APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv})
-
-    # add_library(SPIRV-Tools)
     
     # if(MSVC)
     #   set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
