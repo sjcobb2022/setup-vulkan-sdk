@@ -187,6 +187,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       add_library(glslang UNKNOWN IMPORTED)
       set_target_properties(glslang PROPERTIES
         IMPORTED_LOCATION "${glslang_LIBRARY}"
+        INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
         INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
     
@@ -194,6 +195,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(GenericCodeGen UNKNOWN IMPORTED)
     set_target_properties(GenericCodeGen PROPERTIES
       IMPORTED_LOCATION "${GenericCodeGen_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -201,6 +203,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(MachineIndependent UNKNOWN IMPORTED)
     set_target_properties(MachineIndependent PROPERTIES
       IMPORTED_LOCATION "${MachineIndependent_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -208,6 +211,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(OGLCompiler UNKNOWN IMPORTED)
     set_target_properties(OGLCompiler PROPERTIES
       IMPORTED_LOCATION "${OGLCompiler_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -215,6 +219,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(OSDependent UNKNOWN IMPORTED)
     set_target_properties(OSDependent PROPERTIES
       IMPORTED_LOCATION "${OSDependent_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -222,6 +227,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(SPIRV UNKNOWN IMPORTED)
     set_target_properties(SPIRV PROPERTIES
       IMPORTED_LOCATION "${SPIRV_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -243,6 +249,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(SPIRV-Tools UNKNOWN IMPORTED)
     set_target_properties(SPIRV-Tools PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -250,6 +257,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
     set_target_properties(SPIRV-Tools-opt PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools-opt_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -257,6 +265,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(SPIRV-Tools-link UNKNOWN IMPORTED)
     set_target_properties(SPIRV-Tools-link PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools-link_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
@@ -264,6 +273,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_library(SPIRV-Tools-reduce UNKNOWN IMPORTED)
     set_target_properties(SPIRV-Tools-reduce PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools-reduce_LIBRARY}"
+      INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
