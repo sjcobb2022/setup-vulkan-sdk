@@ -228,6 +228,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
+    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang)
+
+    ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv)
+
+    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV)
+
     target_include_directories(
       SPIRV 
       INTERFACE ${CMAKE_INSTALL_PREFIX}/include
