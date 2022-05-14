@@ -129,9 +129,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
     # set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
-    set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include/glslang" CACHE FILEPATH "" FORCE)
+    set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
 
-    # ls_path(${glslang_SOURCE_DIR})
+    ls_path(${glslang_SOURCE_DIR})
 
     # find_library(SPIRV-Tools SPIRV-Tools REQUIRED)
     # find_library(SPIRV-Tools-opt SPIRV-Tools-opt REQUIRED)
@@ -147,17 +147,19 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     include(FindPackageHandleStandardArgs)
     include(SelectLibraryConfigurations)
 
-    find_path(glslang_INCLUDE_DIR NAMES glslang/build_info.h         HINTS "${CMAKE_INSTALL_PREFIX}/include")
+    find_path(glslang_INCLUDE_DIR NAMES     glslang/build_info.h     HINTS "${CMAKE_INSTALL_PREFIX}/include")
     find_library(glslang_LIBRARY            NAMES glslang            HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(GenericCodeGen_LIBRARY     NAMES GenericCodeGen     HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(MachineIndependent_LIBRARY NAMES MachineIndependent HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(OGLCompiler_LIBRARY        NAMES OGLCompiler        HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(OSDependent_LIBRARY        NAMES OSDependent        HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(SPIRV_LIBRARY              NAMES SPIRV              HINTS "${CMAKE_INSTALL_PREFIX}/lib")
-    find_library(SPIRV-Tools_LIBRARY         NAMES  SPIRV-Tools        HINTS "${CMAKE_INSTALL_PREFIX}/lib")
+    find_library(SPIRV-Tools_LIBRARY        NAMES  SPIRV-Tools       HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(SPIRV-Tools-opt_LIBRARY    NAMES SPIRV-Tools-opt    HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(SPIRV-Tools-link_LIBRARY   NAMES SPIRV-Tools-link   HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     find_library(SPIRV-Tools-reduce_LIBRARY NAMES SPIRV-Tools-reduce HINTS "${CMAKE_INSTALL_PREFIX}/lib")
+
+    ls_path(glslang_INCLUDE_DIR)
 
     set(glslang_INCLUDE_DIRS         ${glslang_INCLUDE_DIR})
     set(glslang_LIBRARIES            ${glslang_LIBRARY})
@@ -166,7 +168,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set(OGLCompiler_LIBRARIES        ${OGLCompiler_LIBRARY})
     set(OSDependent_LIBRARIES        ${OSDependent_LIBRARY})
     set(SPIRV_LIBRARIES              ${SPIRV_LIBRARY})
-    set(SPIRV-Tools_LIBRARIES ${SPIRV-Tools_LIBRARY})
+    set(SPIRV-Tools_LIBRARIES        ${SPIRV-Tools_LIBRARY})
     set(SPIRV-Tools-opt_LIBRARIES    ${SPIRV-Tools-opt_LIBRARY})
     set(SPIRV-Tools-link_LIBRARIES   ${SPIRV-Tools-link_LIBRARY})
     set(SPIRV-Tools-reduce_LIBRARIES ${SPIRV-Tools-reduce_LIBRARY})
@@ -198,7 +200,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
-        
     if(MachineIndependent_FOUND AND NOT TARGET MachineIndependent)
     add_library(MachineIndependent UNKNOWN IMPORTED)
     set_target_properties(MachineIndependent PROPERTIES
@@ -226,6 +227,14 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       IMPORTED_LOCATION "${SPIRV_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
+
+    target_include_directories(
+      SPIRV 
+      INTERFACE ${CMAKE_INSTALL_PREFIX}/include
+      INTERFACE ${CMAKE_INSTALL_PREFIX}/include/glslang
+      INTERFACE ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV)
+
+    include_directories("glslang_INCLUDE_DIRS")
 
     if(SPIRV-Tools_FOUND AND NOT TARGET SPIRV-Tools)
     add_library(SPIRV-Tools UNKNOWN IMPORTED)
@@ -255,7 +264,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
     endif()
 
-        
     target_link_libraries(SPIRV-Tools-opt    INTERFACE SPIRV-Tools)
     target_link_libraries(SPIRV-Tools-reduce INTERFACE SPIRV-Tools SPIRV-Tools-opt)
     target_link_libraries(SPIRV-Tools-link   INTERFACE SPIRV-Tools-opt)
