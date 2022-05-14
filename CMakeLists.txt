@@ -127,7 +127,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     set(spirv-tools_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
     # set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
-    set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
+    # set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
     # set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
     set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
 
@@ -295,7 +295,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
-    # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/glslang )
+    set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include/glslang" )
     target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL)  
 
     add_library(SPIRV STATIC IMPORTED)
@@ -310,11 +310,13 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${SPIRV_LIBRARY_DEBUG})
     endif()
 
+    message(STATUS "SPIRV_LIBRARY: ${SPIRV_LIBRARY}")
     message(STATUS "SPIRV_INCLUDE_DIR: ${SPIRV_INCLUDE_DIR}")
+    message(STATUS "glslang INCLUDE: ${CMAKE_INSTALL_PREFIX}/include/glslang")
 
-    set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${SPIRV_INCLUDE_DIR}")
+    set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
 
-    target_link_libraries(SPIRV INTERFACE glslang)
+    target_link_libraries(SPIRV INTERFACE glslang SPIRV-Tools SPIRV-Tools-opt)
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
@@ -324,13 +326,13 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     add_executable(glslangValidator IMPORTED)
     set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
 
-    # mark_as_advanced(
-    #   GLSLANG_LIBRARY
-    #   OGLCOMPILER_LIBRARY
-    #   OSDEPENDENT_LIBRARY
-    #   HLSL_LIBRARY
-    #   SPIRV_LIBRARY
-    # )
+    mark_as_advanced(
+      GLSLANG_LIBRARY
+      OGLCOMPILER_LIBRARY
+      OSDEPENDENT_LIBRARY
+      HLSL_LIBRARY
+      SPIRV_LIBRARY
+    )
 
     # ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv-tools)
     
