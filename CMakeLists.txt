@@ -141,8 +141,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # ls_path(${CMAKE_INSTALL_PREFIX})
 
-    # include(FindPackageHandleStandardArgs)
-    # include(SelectLibraryConfigurations)
+    include(FindPackageHandleStandardArgs)
+    include(SelectLibraryConfigurations)
 
     # find_path(glslang_INCLUDE_DIR NAMES     glslang/build_info.h     HINTS "${CMAKE_INSTALL_PREFIX}/include")
     # find_library(glslang_LIBRARY            NAMES glslang            HINTS "${CMAKE_INSTALL_PREFIX}/lib")
