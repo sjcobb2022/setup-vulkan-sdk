@@ -184,7 +184,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     mark_as_advanced(glslang_INCLUDE_DIR glslang_LIBRARY)
     
     if(glslang_FOUND AND NOT TARGET glslang)
-      add_library(glslang UNKNOWN IMPORTED)
+      add_library(glslang UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
       set_target_properties(glslang PROPERTIES
         IMPORTED_LOCATION "${glslang_LIBRARY}"
         INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -192,7 +192,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
     
     if(GenericCodeGen_FOUND AND NOT TARGET GenericCodeGen)
-    add_library(GenericCodeGen UNKNOWN IMPORTED)
+    add_library(GenericCodeGen UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(GenericCodeGen PROPERTIES
       IMPORTED_LOCATION "${GenericCodeGen_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -200,7 +200,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(MachineIndependent_FOUND AND NOT TARGET MachineIndependent)
-    add_library(MachineIndependent UNKNOWN IMPORTED)
+    add_library(MachineIndependent UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(MachineIndependent PROPERTIES
       IMPORTED_LOCATION "${MachineIndependent_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -208,7 +208,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(OGLCompiler_FOUND AND NOT TARGET OGLCompiler)
-    add_library(OGLCompiler UNKNOWN IMPORTED)
+    add_library(OGLCompiler UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(OGLCompiler PROPERTIES
       IMPORTED_LOCATION "${OGLCompiler_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -216,7 +216,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(OSDependent_FOUND AND NOT TARGET OSDependent)
-    add_library(OSDependent UNKNOWN IMPORTED)
+    add_library(OSDependent UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(OSDependent PROPERTIES
       IMPORTED_LOCATION "${OSDependent_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -224,7 +224,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(SPIRV_FOUND AND NOT TARGET SPIRV)
-    add_library(SPIRV UNKNOWN IMPORTED)
+    add_library(SPIRV UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(SPIRV PROPERTIES
       IMPORTED_LOCATION "${SPIRV_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -248,7 +248,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
 
     if(SPIRV-Tools_FOUND AND NOT TARGET SPIRV-Tools)
-    add_library(SPIRV-Tools UNKNOWN IMPORTED)
+    add_library(SPIRV-Tools UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(SPIRV-Tools PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -256,7 +256,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(SPIRV-Tools-opt_FOUND AND NOT TARGET SPIRV-Tools-opt)
-    add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
+    add_library(SPIRV-Tools-opt UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(SPIRV-Tools-opt PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools-opt_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -264,7 +264,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(SPIRV-Tools-link_FOUND AND NOT TARGET SPIRV-Tools-link)
-    add_library(SPIRV-Tools-link UNKNOWN IMPORTED)
+    add_library(SPIRV-Tools-link UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(SPIRV-Tools-link PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools-link_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
@@ -272,7 +272,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     if(SPIRV-Tools-reduce_FOUND AND NOT TARGET SPIRV-Tools-reduce)
-    add_library(SPIRV-Tools-reduce UNKNOWN IMPORTED)
+    add_library(SPIRV-Tools-reduce UNKNOWN IMPORTED IMPORTED_GLOBAL TRUE)
     set_target_properties(SPIRV-Tools-reduce PROPERTIES
       IMPORTED_LOCATION "${SPIRV-Tools-reduce_LIBRARY}"
       INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
