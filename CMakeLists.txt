@@ -128,7 +128,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
     set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
 
-    ls_path(${glslang_SOURCE_DIR})
+    # ls_path(${glslang_SOURCE_DIR})
 
     # find_library(SPIRV-Tools SPIRV-Tools REQUIRED)
     # find_library(SPIRV-Tools-opt SPIRV-Tools-opt REQUIRED)
@@ -328,10 +328,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
 
-    if(NOT TARGET SPIRV-Tools)
-      message(STATUS " >>>>>>>>>>>>>>>>>> SPIRV-Tools is NOT a target")
-    endif()
-
     add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
 
     if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
@@ -443,7 +439,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
     set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include/glslang" )
     target_include_directories(glslang INTERFACE "${CMAKE_INSTALL_PREFIX}/include/glslang")
-    target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL)  
+    target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)  
 
     add_library(SPIRV UNKNOWN IMPORTED)
     if(SPIRV_LIBRARY_RELEASE)
