@@ -350,20 +350,20 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
 
-    add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
+    # add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
 
-    if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
-      set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
-      set_target_properties(SPIRV-Tools PROPERTIES
-        IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
-        message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
-    endif()
-    if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
-        set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-        set_target_properties(SPIRV-Tools-opt PROPERTIES
-            IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
-            message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
-    endif()
+    # if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
+    #   set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+    #   set_target_properties(SPIRV-Tools PROPERTIES
+    #     IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
+    #     message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
+    # endif()
+    # if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
+    #     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+    #     set_target_properties(SPIRV-Tools-opt PROPERTIES
+    #         IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
+    #         message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
+    # endif()
 
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
