@@ -121,22 +121,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       endif()
     endfunction()
 
-    # add_library(SPIRV-Tools-opt INTERFACE)
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    # install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-opt)
-    # install(EXPORT SPIRV-Tools-opt DESTINATION lib/cmake)
-    # set(spirv_tools NOTFOUND)
-    # set(spirv_tools_opt NOTFOUND)
-    # find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-
     set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     
     # set(spirv-tools_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
     set(spirv-tools_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
-
     
     set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     
@@ -148,20 +136,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
 
     set(glslang_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
-
-
-    # ls_path(${glslang_SOURCE_DIR})
-
-    # find_library(SPIRV-Tools SPIRV-Tools REQUIRED)
-    # find_library(SPIRV-Tools-opt SPIRV-Tools-opt REQUIRED)
-    # set(SPIRV-Tools SPIRV-Tools PARENT_SCOPE)
-
-    # ls_path(${CMAKE_INSTALL_PREFIX}/lib)
-    # ls_path(${CMAKE_INSTALL_PREFIX}/lib/cmake)
-    # ls_path(${CMAKE_INSTALL_PREFIX}/include)
-    # ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv-tools)
-
-    # ls_path(${CMAKE_INSTALL_PREFIX})
 
     include(FindPackageHandleStandardArgs)
     include(SelectLibraryConfigurations)
@@ -177,8 +151,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # find_library(SPIRV-Tools-opt_LIBRARY    NAMES SPIRV-Tools-opt    HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     # find_library(SPIRV-Tools-link_LIBRARY   NAMES SPIRV-Tools-link   HINTS "${CMAKE_INSTALL_PREFIX}/lib")
     # find_library(SPIRV-Tools-reduce_LIBRARY NAMES SPIRV-Tools-reduce HINTS "${CMAKE_INSTALL_PREFIX}/lib")
-
-    # ls_path(glslang_INCLUDE_DIR)
 
     # set(glslang_INCLUDE_DIRS         ${glslang_INCLUDE_DIR})
     # set(glslang_LIBRARIES            ${glslang_LIBRARY})
@@ -204,115 +176,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # find_package_handle_standard_args(SPIRV-Tools-reduce DEFAULT_MSG SPIRV-Tools_LIBRARY glslang_INCLUDE_DIR)
 
     # mark_as_advanced(glslang_INCLUDE_DIR glslang_LIBRARY)
-    
-    # if(glslang_FOUND AND NOT TARGET glslang)
-    #   add_library(glslang UNKNOWN IMPORTED)
-    #   set_target_properties(glslang PROPERTIES
-    #     IMPORTED_LOCATION "${glslang_LIBRARY}"
-    #     INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #     INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-    
-    # if(GenericCodeGen_FOUND AND NOT TARGET GenericCodeGen)
-    # add_library(GenericCodeGen UNKNOWN IMPORTED)
-    # set_target_properties(GenericCodeGen PROPERTIES
-    #   IMPORTED_LOCATION "${GenericCodeGen_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(MachineIndependent_FOUND AND NOT TARGET MachineIndependent)
-    # add_library(MachineIndependent UNKNOWN IMPORTED)
-    # set_target_properties(MachineIndependent PROPERTIES
-    #   IMPORTED_LOCATION "${MachineIndependent_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(OGLCompiler_FOUND AND NOT TARGET OGLCompiler)
-    # add_library(OGLCompiler UNKNOWN IMPORTED)
-    # set_target_properties(OGLCompiler PROPERTIES
-    #   IMPORTED_LOCATION "${OGLCompiler_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(OSDependent_FOUND AND NOT TARGET OSDependent)
-    # add_library(OSDependent UNKNOWN IMPORTED)
-    # set_target_properties(OSDependent PROPERTIES
-    #   IMPORTED_LOCATION "${OSDependent_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(SPIRV_FOUND AND NOT TARGET SPIRV)
-    # add_library(SPIRV UNKNOWN IMPORTED)
-    # set_target_properties(SPIRV PROPERTIES
-    #   IMPORTED_LOCATION "${SPIRV_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang)
-
-    # ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv)
-
-    # ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV)
-
-    # target_include_directories(
-    #   SPIRV 
-    #   INTERFACE ${CMAKE_INSTALL_PREFIX}/include
-    #   INTERFACE ${CMAKE_INSTALL_PREFIX}/include/glslang
-    #   INTERFACE ${CMAKE_INSTALL_PREFIX}/include/glslang/SPIRV)
-    
-    # # include_directories("${glslang_INCLUDE_DIRS}")
-    # # include_directories("")
-
-
-    # if(SPIRV-Tools_FOUND AND NOT TARGET SPIRV-Tools)
-    # add_library(SPIRV-Tools UNKNOWN IMPORTED)
-    # set_target_properties(SPIRV-Tools PROPERTIES
-    #   IMPORTED_LOCATION "${SPIRV-Tools_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(SPIRV-Tools-opt_FOUND AND NOT TARGET SPIRV-Tools-opt)
-    # add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
-    # set_target_properties(SPIRV-Tools-opt PROPERTIES
-    #   IMPORTED_LOCATION "${SPIRV-Tools-opt_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(SPIRV-Tools-link_FOUND AND NOT TARGET SPIRV-Tools-link)
-    # add_library(SPIRV-Tools-link UNKNOWN IMPORTED)
-    # set_target_properties(SPIRV-Tools-link PROPERTIES
-    #   IMPORTED_LOCATION "${SPIRV-Tools-link_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # if(SPIRV-Tools-reduce_FOUND AND NOT TARGET SPIRV-Tools-reduce)
-    # add_library(SPIRV-Tools-reduce UNKNOWN IMPORTED)
-    # set_target_properties(SPIRV-Tools-reduce PROPERTIES
-    #   IMPORTED_LOCATION "${SPIRV-Tools-reduce_LIBRARY}"
-    #   INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib
-    #   INTERFACE_INCLUDE_DIRECTORIES "${glslang_INCLUDE_DIRS}")
-    # endif()
-
-    # target_link_libraries(SPIRV-Tools-opt    INTERFACE SPIRV-Tools)
-    # target_link_libraries(SPIRV-Tools-reduce INTERFACE SPIRV-Tools SPIRV-Tools-opt)
-    # target_link_libraries(SPIRV-Tools-link   INTERFACE SPIRV-Tools-opt)
-
-        
-    # set(THREADS_PREFER_PTHREAD_FLAG ON)
-    # find_package(Threads)
-    # target_link_libraries(OSDependent        INTERFACE Threads::Threads)
-    # target_link_libraries(MachineIndependent INTERFACE OGLCompiler OSDependent GenericCodeGen)
-    # target_link_libraries(glslang            INTERFACE OGLCompiler OSDependent MachineIndependent)
-
-    # target_link_libraries(SPIRV              INTERFACE MachineIndependent SPIRV-Tools-opt)
 
     find_library(SPIRV_TOOLS_LIBRARY_DEBUG NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(SPIRV_TOOLS_LIBRARY_RELEASE NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
@@ -486,9 +349,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     target_link_libraries(SPIRV INTERFACE SPIRV-Tools SPIRV-Tools-opt glslang)
 
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/spirv)
     ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv)
-
+    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/spirv)
+    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/spirv/unified1)
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
@@ -516,8 +379,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # ls_path(${spirv-tools_SOURCE_DIR}/include)   
     # ls_path(${spirv-tools_SOURCE_DIR}/SPIRV-Tools)
     # ls_path(${CMAKE_INSTALL_PREFIX}/libs/cmake)
-    
-    
 
     # add_target(${name} PROPERTIES lib [lib...])
     # function(add_target name include)
@@ -556,7 +417,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
 
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt && echo -e \"$(echo \"\\n if(TARGET SPIRV-Tools-opt) \\n \\t message(STATUS \"SPIRV-Tools-opt\ IN\ glslc\") \\n endif() \") $(cat ../shaderc/glslc/CMakeLists.txt)\" > ../shaderc/glslc/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt && echo -e \"$(echo \"\\n get_target_property(SPIRV-Tools-opt_LIBA SPIRV-Tools-opt IMPORTED_LOCATION) \\n \\t message(STATUS \"SPIRV-Tools-opt-lib : ${SPIRV-Tools-opt_LIBA}\") \\n endif() \") $(cat ../shaderc/glslc/CMakeLists.txt)\" > ../shaderc/glslc/CMakeLists.txt")
   # execute_process(COMMAND wsl "-e" "awk \'/target_link_libraries(glslangValidator \$\{LIBRARIES\})/ { print; print \"message(STATUS \"Got past the library link\")\"; next }1\' ${CMAKE_BINARY_DIR}/Glslang-prefix/src/Glslang/StandAlone/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
 
