@@ -232,6 +232,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
     endif()
 
+    message(STATUS "SPIRV-Tools-opt_LIBRARY: ${SPIRV-Tools-opt_LIBRARY}")
+    message(STATUS "SPIRV-Tools-opt_LIBRARY_RELEASE: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
+    message(STATUS "SPIRV-Tools-opt_LIBRARY_DEBUG: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
+
+
+
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
 
@@ -359,8 +365,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/spirv)
     ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv/unified1)
 
-    get_target_property(SPIRV-Tools-opt_LIBA SPIRV-Tools-opt IMPORTED_LOCATION)
-    message(STATUS " IMPORTED LOCATION IN THING ${SPIRV-Tools-opt_LIBA}")
+    get_target_property(SPIRV-Tools-opt_LIBA SPIRV-Tools-opt IMPORTED_LOCATION_RELEASE)
+    message(STATUS "IMPORTED LOCATION DEBUG   ${SPIRV-Tools-opt_LIBA}")
+    get_target_property(SPIRV-Tools-opt_LIBB SPIRV-Tools-opt IMPORTED_LOCATION_RELEASE)
+    message(STATUS "IMPORTED LOCATION RELEASE ${SPIRV-Tools-opt_LIBB}")
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
