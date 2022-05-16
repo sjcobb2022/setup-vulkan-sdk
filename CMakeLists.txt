@@ -113,6 +113,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     message(STATUS "======================== SHADER PATCH 1 =====================")
 
+    set(CMAKE_VERBOSE_MAKEFILE ON)
+
     function(ls_path path)
       if(WIN32)
         execute_process(COMMAND powershell "-Command" "ls ${path}")
@@ -336,7 +338,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     target_include_directories(glslang INTERFACE "${CMAKE_INSTALL_PREFIX}/include/glslang")
     target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)  
 
-    add_library(SPIRV UNKNOWN IMPORTED)
+    add_library(SPIRV STATIC IMPORTED)
     if(SPIRV_LIBRARY_RELEASE)
         set_property(TARGET SPIRV APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
         set_target_properties(SPIRV PROPERTIES
@@ -353,9 +355,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # message(STATUS "SPIRV_INCLUDE_DIR: ${SPIRV_INCLUDE_DIR}")
     # message(STATUS "glslang INCLUDE: ${CMAKE_INSTALL_PREFIX}/include/glslang")
 
-    set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang;${CMAKE_INSTALL_PREFIX}/include/spirv;${CMAKE_INSTALL_PREFIX}/include/spirv/unified1")
-
-    # target_include_directories(SPIRV INTERFACE "${CMAKE_INSTALL_PREFIX}/include/glslang")
+    set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
 
     # execute_command()
 
