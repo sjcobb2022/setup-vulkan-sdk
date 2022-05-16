@@ -484,7 +484,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # target_include_directories(SPIRV INTERFACE "${CMAKE_INSTALL_PREFIX}/include/glslang")
 
-    target_link_libraries(SPIRV INTERFACE glslang SPIRV-Tools SPIRV-Tools-opt)
+    target_link_libraries(SPIRV INTERFACE glslang SPIRV-Tools)
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
