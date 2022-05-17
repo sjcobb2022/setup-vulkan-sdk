@@ -238,8 +238,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     message(STATUS "SPIRV-Tools-opt_LIBRARY_RELEASE: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
     message(STATUS "SPIRV-Tools-opt_LIBRARY_DEBUG: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
 
-
-
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
 
@@ -351,24 +349,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${SPIRV_LIBRARY_DEBUG})
     endif()
 
-    # message(STATUS "SPIRV_LIBRARY: ${SPIRV_LIBRARY}")
-    # message(STATUS "SPIRV_INCLUDE_DIR: ${SPIRV_INCLUDE_DIR}")
-    # message(STATUS "glslang INCLUDE: ${CMAKE_INSTALL_PREFIX}/include/glslang")
-
     set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
 
-    # execute_command()
-
     target_link_libraries(SPIRV INTERFACE SPIRV-Tools SPIRV-Tools-opt glslang)
-
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv)
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/spirv)
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv/unified1)
-
-    get_target_property(SPIRV-Tools-opt_LIBA SPIRV-Tools-opt IMPORTED_LOCATION_RELEASE)
-    message(STATUS "IMPORTED LOCATION DEBUG   ${SPIRV-Tools-opt_LIBA}")
-    get_target_property(SPIRV-Tools-opt_LIBB SPIRV-Tools-opt IMPORTED_LOCATION_RELEASE)
-    message(STATUS "IMPORTED LOCATION RELEASE ${SPIRV-Tools-opt_LIBB}")
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
@@ -390,54 +373,11 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
     endif()
 
-    # ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv-tools)
-    
-    # ls_path(${spirv-tools_SOURCE_DIR})
-    # ls_path(${spirv-tools_SOURCE_DIR}/include)   
-    # ls_path(${spirv-tools_SOURCE_DIR}/SPIRV-Tools)
-    # ls_path(${CMAKE_INSTALL_PREFIX}/libs/cmake)
-
-    # add_target(${name} PROPERTIES lib [lib...])
-    # function(add_target name include)
-
-    #   add_library(${name} INTERFACE)
-    #   set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    #   set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-
-    #   install(TARGETS ${name} EXPORT ${name})
-    #   install(EXPORT ${name} DESTINATION lib/cmake)
-
-    #   message(STATUS " >>>> This should message")
-    #   message(STATUS " >>>> ${ARGN}")
-
-    #   foreach(arg ${ARGN})
-    #     string(TOLOWER ${arg} lc_name)
-    #     message(STATUS "Processing ${name} for ${arg}")
-    #     if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
-    #       message(STATUS "Path Exists ${CMAKE_INSTALL_PREFIX}/include/${lc_name}")
-    #       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${lc_name} )
-    #     endif()
-        
-    #     if(EXISTS "${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
-    #       message(STATUS "Set INTERFACE_INCLUDE_DIRECTORIES for ${name} as ${CMAKE_INSTALL_PREFIX}/include/glslang/${name}")
-    #       set_property(TARGET ${name} APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include/${name} )
-    #     endif()
-
-    #     string(RANDOM LENGTH 10 lib)
-    #     find_library(lib ${arg} PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    #     set_property(TARGET ${name} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${lib})
-    #   endforeach()
-
-    # endfunction()
-
-    # add_library(SPIRV-Tools-opt INTERFACE)
-
   ]====])
 
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt && echo -e \"$(echo \"\\n get_target_property(SPIRV-Tools-opt_LIBA SPIRV-Tools-opt IMPORTED_LOCATION) \\n message(STATUS \"SPIRV-Tools-opt-lib : ${SPIRV-Tools-opt_LIBA}\") \\n \") $(cat ../shaderc/glslc/CMakeLists.txt)\" > ../shaderc/glslc/CMakeLists.txt")
   # execute_process(COMMAND wsl "-e" "awk \'/target_link_libraries(glslangValidator \$\{LIBRARIES\})/ { print; print \"message(STATUS \"Got past the library link\")\"; next }1\' ${CMAKE_BINARY_DIR}/Glslang-prefix/src/Glslang/StandAlone/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
-
 
   # file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
 
