@@ -249,12 +249,16 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     find_library(GLSLANG_LIBRARY_RELEASE NAMES glslang HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_library(OGLCOMPILER_LIBRARY_RELEASE NAMES OGLCompiler HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_library(OSDEPENDENT_LIBRARY_RELEASE NAMES OSDependent HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
+    find_library(GENERICCODEGEN_LIBRARY_RELEASE NAMES GenericCodeGen HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
+    find_library(MACHINEINDEPENDANT_LIBRARY_RELEASE NAMES MachineIndependent HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_library(HLSL_LIBRARY_RELEASE NAMES HLSL HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES  lib)
     find_library(SPIRV_LIBRARY_RELEASE NAMES SPIRV HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_library(GLSLANG_LIBRARY_DEBUG NAMES glslangd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(OGLCOMPILER_LIBRARY_DEBUG NAMES OGLCompilerd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(OSDEPENDENT_LIBRARY_DEBUG NAMES OSDependentd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(SPIRV_LIBRARY_DEBUG NAMES SPIRVd PATH_SUFFIXES HINTS ${CMAKE_INSTALL_PREFIX} DEBUG/lib)
+    find_library(GENERICCODEGEN_LIBRARY_DEBUG NAMES GenericCodeGend HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
+    find_library(MACHINEINDEPENDANT_LIBRARY_DEBUG NAMES MachineIndependentd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(HLSL_LIBRARY_DEBUG NAMES HLSLd PATH_SUFFIXES HINTS ${CMAKE_INSTALL_PREFIX} DEBUG/lib)
     find_path(GLSLANG_INCLUDE_DIR NAMES glslang/Public/ShaderLang.h HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES include)
     find_path(SPIRV_INCLUDE_DIR NAMES SPIRV/spirv.hpp HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/glslang PATH_SUFFIXES include)
@@ -265,12 +269,17 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     select_library_configurations(OSDEPENDENT)
     select_library_configurations(SPIRV)
     select_library_configurations(HLSL)
+    select_library_configurations(GENERICCODEGEN)
+    select_library_configurations(MACHINEINDEPENDANT)
+
 
     find_package_handle_standard_args(glslang
       DEFAULT_MSG
       GLSLANG_LIBRARY
       OGLCOMPILER_LIBRARY
       OSDEPENDENT_LIBRARY
+      GENERICCODEGEN_LIBRARY
+      MACHINEINDEPENDANT_LIBRARY
       SPIRV_LIBRARY
       HLSL_LIBRARY
       GLSLANG_INCLUDE_DIR
@@ -321,6 +330,30 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${HLSL_LIBRARY_DEBUG})
     endif()
 
+    add_library(GenericCodeGen STATIC IMPORTED)
+    if(GENERICCODEGEN_LIBRARY_RELEASE)
+        set_property(TARGET GenericCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+        set_target_properties(GenericCodeGen PROPERTIES
+            IMPORTED_LOCATION_RELEASE ${GENERICCODEGEN_LIBRARY_RELEASE})
+    endif()
+    if(GENERICCODEGEN_LIBRARY_DEBUG)
+        set_property(TARGET GenericCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+        set_target_properties(GenericCodeGen PROPERTIES
+            IMPORTED_LOCATION_DEBUG ${GENERICCODEGEN_LIBRARY_DEBUG})
+    endif()
+
+    add_library(MachineIndependent STATIC IMPORTED)
+    if(MACHINEINDEPENDANT_LIBRARY_RELEASE)
+        set_property(TARGET MachineIndependent APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+        set_target_properties(MachineIndependent PROPERTIES
+            IMPORTED_LOCATION_RELEASE ${MACHINEINDEPENDANT_LIBRARY_RELEASE})
+    endif()
+    if(MACHINEINDEPENDANT_LIBRARY_DEBUG)
+        set_property(TARGET MachineIndependent APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+        set_target_properties(MachineIndependent PROPERTIES
+            IMPORTED_LOCATION_DEBUG ${MACHINEINDEPENDANT_LIBRARY_DEBUG})
+    endif()
+
     add_library(glslang STATIC IMPORTED)
     if(GLSLANG_LIBRARY_RELEASE)
         set_property(TARGET glslang APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
@@ -336,7 +369,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
     set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include/glslang" )
     target_include_directories(glslang INTERFACE "${CMAKE_INSTALL_PREFIX}/include/glslang")
-    target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)  
+    target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL MachineIndependent GenericCodeGen SPIRV-Tools SPIRV-Tools-opt)  
 
     add_library(SPIRV STATIC IMPORTED)
     if(SPIRV_LIBRARY_RELEASE)
@@ -360,15 +393,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     # execute_command()
 
     target_link_libraries(SPIRV INTERFACE SPIRV-Tools SPIRV-Tools-opt glslang)
-
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv)
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/glslang/spirv)
-    ls_path(${CMAKE_INSTALL_PREFIX}/include/spirv/unified1)
-
-    get_target_property(SPIRV-Tools-opt_LIBA SPIRV-Tools-opt IMPORTED_LOCATION_RELEASE)
-    message(STATUS "IMPORTED LOCATION DEBUG   ${SPIRV-Tools-opt_LIBA}")
-    get_target_property(SPIRV-Tools-opt_LIBB SPIRV-Tools-opt IMPORTED_LOCATION_RELEASE)
-    message(STATUS "IMPORTED LOCATION RELEASE ${SPIRV-Tools-opt_LIBB}")
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
