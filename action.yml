@@ -124,6 +124,11 @@ runs:
         . $PWD/_vulkan_build/env
         cmake --install ${VULKAN_SDK_BUILD_DIR}
 
+    - name: Cat Errors
+      shell: bash
+      run: |
+        cat D:\a\rush.vk\rush.vk\_vulkan_build\shaderc-prefix\src\shaderc-build\glslc\glslc_exe.vcxproj
+
     - name: Verify Vulkan SDK Installation
       shell: bash
       run: |
