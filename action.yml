@@ -125,6 +125,7 @@ runs:
         cmake --install ${VULKAN_SDK_BUILD_DIR}
 
     - name: Cat Errors
+      if: always()
       shell: bash
       run: |
         cat D:\a\rush.vk\rush.vk\_vulkan_build\shaderc-prefix\src\shaderc-build\glslc\glslc_exe.vcxproj
