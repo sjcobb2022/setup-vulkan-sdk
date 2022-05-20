@@ -183,6 +183,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # mark_as_advanced(glslang_INCLUDE_DIR glslang_LIBRARY)
 
+    if(TARGET SPIRV-Tools-opt)
+      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! before finding spirv-tools")
+    endif()
+
     find_library(SPIRV_TOOLS_LIBRARY_DEBUG NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(SPIRV_TOOLS_LIBRARY_RELEASE NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_path(SPIRV_TOOLS_INCLUDE_DIR NAMES spirv-tools/libspirv.h HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/spirv-tools PATH_SUFFIXES include)
@@ -191,6 +195,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     
     select_library_configurations(SPIRV_TOOLS)
     select_library_configurations(SPIRV_TOOLS_OPT)
+
+    if(TARGET SPIRV-Tools-opt)
+      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after finding spirv-tools")
+    endif()
 
     find_package_handle_standard_args(
       SPIRV-Tools
@@ -219,6 +227,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
 
+    if(TARGET SPIRV-Tools-opt)
+      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after linking spirv-tools")
+    endif()
+
     add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
 
     if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
@@ -245,6 +257,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     message(STATUS "SPIRV_TOOLS_OPT_LIBRARY: ${SPIRV_TOOLS_OPT_LIBRARY}")
     message(STATUS "SPIRV_TOOLS_FOUND: ${SPIRV_TOOLS_OPT_FOUND}")
+
+    if(TARGET SPIRV-Tools-opt)
+      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after adding spirv-tools-opt")
+    endif()
 
     find_library(GLSLANG_LIBRARY_RELEASE NAMES glslang HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_library(OGLCOMPILER_LIBRARY_RELEASE NAMES OGLCompiler HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
