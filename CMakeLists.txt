@@ -183,34 +183,26 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # mark_as_advanced(glslang_INCLUDE_DIR glslang_LIBRARY)
 
-    if(TARGET SPIRV-Tools-opt)
-      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! before finding spirv-tools")
-    endif()
-
     find_library(SPIRV_TOOLS_LIBRARY_DEBUG NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
     find_library(SPIRV_TOOLS_LIBRARY_RELEASE NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_path(SPIRV_TOOLS_INCLUDE_DIR NAMES spirv-tools/libspirv.h HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/spirv-tools PATH_SUFFIXES include)
-    find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-opt HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
-    find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
+    # find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-opt HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
+    # find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     
     select_library_configurations(SPIRV_TOOLS)
-    select_library_configurations(SPIRV_TOOLS_OPT)
-
-    if(TARGET SPIRV-Tools-opt)
-      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after finding spirv-tools")
-    endif()
+    # select_library_configurations(SPIRV_TOOLS_OPT)
 
     find_package_handle_standard_args(
       SPIRV-Tools
       DEFAULT_MSG
       SPIRV_TOOLS_LIBRARY
-      SPIRV_TOOLS_OPT_LIBRARY
+      # SPIRV_TOOLS_OPT_LIBRARY
       SPIRV_TOOLS_INCLUDE_DIR
     )
 
     add_library(SPIRV-Tools UNKNOWN IMPORTED)
 
-    message(STATUS "Found spirv tools include: ${SPIRV_TOOLS_INCLUDE_DIR}")
+    # message(STATUS "Found spirv tools include: ${SPIRV_TOOLS_INCLUDE_DIR}")
 
     if(SPIRV_TOOLS_LIBRARY_RELEASE)
         set_property(TARGET SPIRV-Tools APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
@@ -227,40 +219,36 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
 
-    if(TARGET SPIRV-Tools-opt)
-      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after linking spirv-tools")
-    endif()
+    # add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
 
-    add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
+    # if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
+    #   set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+    #   set_target_properties(SPIRV-Tools PROPERTIES
+    #     IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
+    #     message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
+    # endif()
+    # if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
+    #     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+    #     set_target_properties(SPIRV-Tools-opt PROPERTIES
+    #         IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
+    #         message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
+    # endif()
 
-    if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
-      set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
-      set_target_properties(SPIRV-Tools PROPERTIES
-        IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
-        message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
-    endif()
-    if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
-        set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-        set_target_properties(SPIRV-Tools-opt PROPERTIES
-            IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
-            message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
-    endif()
+    # message(STATUS "SPIRV-Tools-opt_LIBRARY: ${SPIRV-Tools-opt_LIBRARY}")
+    # message(STATUS "SPIRV-Tools-opt_LIBRARY_RELEASE: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
+    # message(STATUS "SPIRV-Tools-opt_LIBRARY_DEBUG: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
 
-    message(STATUS "SPIRV-Tools-opt_LIBRARY: ${SPIRV-Tools-opt_LIBRARY}")
-    message(STATUS "SPIRV-Tools-opt_LIBRARY_RELEASE: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
-    message(STATUS "SPIRV-Tools-opt_LIBRARY_DEBUG: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
-
-    set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
+    # set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     # target_link_libraries(SPIRV-Tools-opt INTERFACE SPIRV-Tools)
-    message(STATUS "SPIRV_TOOLS_LIB TO ATTACH TO OPT: ${SPIRV_TOOLS_LIBRARY}")
-    set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${SPIRV_TOOLS_LIBRARY})
+    # message(STATUS "SPIRV_TOOLS_LIB TO ATTACH TO OPT: ${SPIRV_TOOLS_LIBRARY}")
+    # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${SPIRV_TOOLS_LIBRARY})
 
-    message(STATUS "SPIRV_TOOLS_OPT_LIBRARY: ${SPIRV_TOOLS_OPT_LIBRARY}")
-    message(STATUS "SPIRV_TOOLS_FOUND: ${SPIRV_TOOLS_OPT_FOUND}")
+    # message(STATUS "SPIRV_TOOLS_OPT_LIBRARY: ${SPIRV_TOOLS_OPT_LIBRARY}")
+    # message(STATUS "SPIRV_TOOLS_FOUND: ${SPIRV_TOOLS_OPT_FOUND}")
 
-    if(TARGET SPIRV-Tools-opt)
-      message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after adding spirv-tools-opt")
-    endif()
+    # if(TARGET SPIRV-Tools-opt)
+    #   message(">>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT ALREADY A TARGET!!!!!!! after adding spirv-tools-opt")
+    # endif()
 
     find_library(GLSLANG_LIBRARY_RELEASE NAMES glslang HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
     find_library(OGLCOMPILER_LIBRARY_RELEASE NAMES OGLCompiler HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
