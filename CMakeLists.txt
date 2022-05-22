@@ -438,7 +438,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     # message(STATUS "After SPIRV set targets")
 
-    # target_link_libraries(SPIRV INTERFACE glslang SPIRV-Tools SPIRV-Tools-opt)
+    target_link_libraries(SPIRV INTERFACE glslang SPIRV-Tools SPIRV-Tools-opt)
 
     find_package_handle_standard_args(glslangValidator
         "Cannot find glslangValidator, Shader won't be compiled offline"
