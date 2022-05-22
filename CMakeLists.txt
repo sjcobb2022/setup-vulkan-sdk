@@ -104,9 +104,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
   endif()
   ]====])
-  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)' | tee External/CMakeLists.txt")
+  # echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt
+  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat External/CMakeLists.txt)\" > External/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DENABLE_OPT:BOOL=ON)
-
 else()
   # otherwise disable External completely 
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DBUILD_EXTERNAL:BOOL=OFF)
