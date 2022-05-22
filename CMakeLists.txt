@@ -92,7 +92,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   if(TARGET SPIRV-Tools-opt)
     message(STATUS "SPIRV-TOOLS-OPT IS ALREADY A TARGET")
   else()
-    add_libary(SPIRV-Tools-opt STATIC IMPORTED)
+    add_library(SPIRV-Tools-opt STATIC IMPORTED)
 
     # add_library(SPIRV-Tools-opt INTERFACE)
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
