@@ -114,7 +114,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
 
   if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
       set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
-      set_target_properties(SPIRV-Tools PROPERTIES
+      set_target_properties(SPIRV-Tools-opt PROPERTIES
         IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
         message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
   endif()
@@ -254,7 +254,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
       set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
-      set_target_properties(SPIRV-Tools PROPERTIES
+      set_target_properties(SPIRV-Tools-opt PROPERTIES
         IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
         message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
     endif()
