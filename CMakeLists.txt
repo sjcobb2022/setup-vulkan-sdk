@@ -387,15 +387,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
             IMPORTED_LOCATION_DEBUG ${GLSLANG_LIBRARY_DEBUG})
     endif()
 
-    message(STATUS "Before glslang set targets")
-
     set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
     # set_property(TARGET glslang APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include/glslang" )
     # target_include_directories(glslang INTERFACE "${CMAKE_INSTALL_PREFIX}/include/glslang")
-    set_target_properties(glslang PROPERTIES INTERFACE_LINK_LIBRARIES OGLCompiler OSDependent HLSL MachineIndependent GenericCodeGen)
-
-    message(STATUS "After glslang set targets")
-
+    set_target_properties(glslang PROPERTIES INTERFACE_LINK_LIBRARIES OGLCompiler OSDependent HLSL MachineIndependent GenericCodeGen SPIRV-Tools SPIRV-Tools-opt)
 
     add_library(SPIRV STATIC IMPORTED)
     if(SPIRV_LIBRARY_RELEASE)
@@ -409,8 +404,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
         set_target_properties(SPIRV PROPERTIES
             IMPORTED_LOCATION_DEBUG ${SPIRV_LIBRARY_DEBUG})
     endif()
-
-    message(STATUS "before SPIRV set targets")
 
     set_target_properties(SPIRV PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
 
