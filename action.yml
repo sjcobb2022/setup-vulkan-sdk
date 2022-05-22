@@ -142,6 +142,18 @@ runs:
       run: |
         cat D:/a/rush.vk/rush.vk/_vulkan_build/shaderc-prefix/src/shaderc-build/libshaderc/shaderc.vcxproj
 
+    - name: Cat shaderc_util
+      if: always()
+      shell: bash
+      run: |
+        cat D:\a\rush.vk\rush.vk\_vulkan_build\Glslang.vcxproj
+
+     - name: Cat shaderc_util
+      if: always()
+      shell: bash
+      run: |
+        cat D:\a\rush.vk\rush.vk\_vulkan_build\Glslang-prefix\src\Glslang-build\StandAlone\glslangValidator.vcxproj
+
     - name: Verify Vulkan SDK Installation
       shell: bash
       run: |
