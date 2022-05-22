@@ -250,6 +250,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
     # set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_LINK_LIBRARIES  ${SPIRV_TOOLS_OPT_LIBRARY})
 
+    if(TARGET SPIRV-Tools-opt)
+      message(STATUS " >>>>>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT TARGET ALREADY EXISTS")
+    else()
+      message(STATUS " >>>>>>>>>>>>>>>>>>>>>>>>>> SPIRV-TOOLS-OPT NOT REAL")
+    endif()
+
     add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
 
     if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
