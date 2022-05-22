@@ -89,6 +89,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
   file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake  [====[
+
   include(FindPackageHandleStandardArgs)
   include(SelectLibraryConfigurations)
 
@@ -104,10 +105,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   find_package_handle_standard_args(
       SPIRV-Tools-opt
       DEFAULT_MSG
-      SPIRV_TOOLS_LIBRARY
       SPIRV_TOOLS_OPT_LIBRARY
+      SPIRV_TOOLS_LIBRARY
       SPIRV_TOOLS_INCLUDE_DIR
     )
+
+  add_libray(SPIRV-Tools-opt UNKNOWN IMPORTED)
 
   if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
       set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
