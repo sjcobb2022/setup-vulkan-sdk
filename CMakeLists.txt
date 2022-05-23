@@ -328,7 +328,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
                             IMPORTED_LOCATION_RELEASE ${HLSL_LIBRARY_RELEASE}
                             IMPORTED_LOCATION_DEBUG   ${HLSL_LIBRARY_DEBUG})
     
-    # add_library(GenericCodeGen STATIC IMPORTED)
+    add_library(GenericCodeGen STATIC IMPORTED)
     # if(GENERICCODEGEN_LIBRARY_RELEASE)
     #     set_property(TARGET GenericCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
     #     set_target_properties(GenericCodeGen PROPERTIES
@@ -340,7 +340,14 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     #         IMPORTED_LOCATION_DEBUG ${GENERICCODEGEN_LIBRARY_DEBUG})
     # endif()
 
-    # add_library(MachineIndependent STATIC IMPORTED)
+    set_property(TARGET GenericCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
+    set_target_properties(GenericCodeGen
+                          PROPERTIES 
+                            IMPORTED_LOCATION_RELEASE ${GENERICCODEGEN_LIBRARY_RELEASE}
+                            IMPORTED_LOCATION_DEBUG   ${GENERICCODEGEN_LIBRARY_DEBUG})
+
+    add_library(MachineIndependent STATIC IMPORTED)
+
     # if(MACHINEINDEPENDANT_LIBRARY_RELEASE)
     #     set_property(TARGET MachineIndependent APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
     #     set_target_properties(MachineIndependent PROPERTIES
@@ -351,6 +358,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     #     set_target_properties(MachineIndependent PROPERTIES
     #         IMPORTED_LOCATION_DEBUG ${MACHINEINDEPENDANT_LIBRARY_DEBUG})
     # endif()
+
+    set_property(TARGET MachineIndependent APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
+    set_target_properties(MachineIndependent
+                          PROPERTIES 
+                            IMPORTED_LOCATION_RELEASE ${MACHINEINDEPENDENT_LIBRARY_RELEASE}
+                            IMPORTED_LOCATION_DEBUG   ${MACHINEINDEPENDENT_LIBRARY_DEBUG})
 
     add_library(glslang STATIC IMPORTED)
     if(GLSLANG_LIBRARY_RELEASE)
@@ -365,7 +378,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endif()
 
     set_target_properties(glslang PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
-    target_link_libraries(glslang INTERFACE OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)
+    target_link_libraries(glslang INTERFACE MachineIndependent GenericCodeGen OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)
 
     add_library(SPIRV STATIC IMPORTED)
     if(SPIRV_LIBRARY_RELEASE)
