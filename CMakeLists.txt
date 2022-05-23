@@ -281,13 +281,15 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
                           PROPERTIES 
                             IMPORTED_LOCATION ${MACHINEINDEPENDENT_LIBRARY})
 
+    find_package(Threads)
+
     add_library(glslang STATIC IMPORTED)
     set_property(TARGET glslang APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(glslang
                           PROPERTIES
                             IMPORTED_LOCATION ${GLSLANG_LIBRARY}
                             INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
-    target_link_libraries(glslang INTERFACE MachineIndependent GenericCodeGen OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)
+    target_link_libraries(glslang INTERFACE MachineIndependent GenericCodeGen OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt ${CMAKE_THREAD_LIBS_INIT})
 
     add_library(SPIRV STATIC IMPORTED)
     set_property(TARGET SPIRV APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
