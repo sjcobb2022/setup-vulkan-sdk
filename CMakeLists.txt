@@ -203,8 +203,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_property(TARGET SPIRV-Tools APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(SPIRV-Tools
                           PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${SPIRV_TOOLS_LIBRARY_DEBUG})
+                            IMPORTED_LOCATION ${SPIRV_TOOLS_LIBRARY})
 
 
 
@@ -228,8 +227,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(SPIRV-Tools-opt
                           PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
+                            IMPORTED_LOCATION ${SPIRV_TOOLS_OPT_LIBRARY})
 
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${SPIRV_TOOLS_LIBRARY})
@@ -288,8 +286,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_property(TARGET OGLCompiler APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(OGLCompiler
                           PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${OGLCOMPILER_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${OGLCOMPILER_LIBRARY_DEBUG})
+                            IMPORTED_LOCATION ${OGLCOMPILER_LIBRARY})
 
     add_library(OSDependent STATIC IMPORTED)
 
@@ -307,8 +304,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_property(TARGET OSDependent APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(OSDependent
                           PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${OSDEPENDENT_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${OSDEPENDENT_LIBRARY_DEBUG})
+                            IMPORTED_LOCATION ${OSDEPENDENT_LIBRARY})
 
     add_library(HLSL STATIC IMPORTED)
     # if(HLSL_LIBRARY_RELEASE)
@@ -324,9 +320,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     set_property(TARGET HLSL APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(HLSL
-                          PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${HLSL_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${HLSL_LIBRARY_DEBUG})
+                          PROPERTIES
+                            IMPORTED_LOCATION   ${HLSL_LIBRARY})
     
     add_library(GenericCodeGen STATIC IMPORTED)
     # if(GENERICCODEGEN_LIBRARY_RELEASE)
@@ -343,8 +338,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_property(TARGET GenericCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(GenericCodeGen
                           PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${GENERICCODEGEN_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${GENERICCODEGEN_LIBRARY_DEBUG})
+                            IMPORTED_LOCATION ${GENERICCODEGEN_LIBRARY})
 
     add_library(MachineIndependent STATIC IMPORTED)
 
@@ -362,8 +356,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set_property(TARGET MachineIndependent APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(MachineIndependent
                           PROPERTIES 
-                            IMPORTED_LOCATION_RELEASE ${MACHINEINDEPENDENT_LIBRARY_RELEASE}
-                            IMPORTED_LOCATION_DEBUG   ${MACHINEINDEPENDENT_LIBRARY_DEBUG})
+                            IMPORTED_LOCATION ${MACHINEINDEPENDENT_LIBRARY})
 
     add_library(glslang STATIC IMPORTED)
     if(GLSLANG_LIBRARY_RELEASE)
