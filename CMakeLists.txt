@@ -145,7 +145,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   if(WIN32)
     set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "ls . && basename . && ls .. && echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ../glslang/CMakeLists.txt)\" > ../glslang/CMakeLists.txt")
   else()
-    set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "ls . && basename . && ls .. && echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ../glslang/CMakeLists.txt)\" > ../glslang/CMakeLists.txt")
+    set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "ls . && basename . && ls .. && echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ../Glslang/CMakeLists.txt)\" > ../Glslang/CMakeLists.txt")
   endif()
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DENABLE_OPT:BOOL=ON)
 else()
