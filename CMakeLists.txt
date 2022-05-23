@@ -293,7 +293,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
                           PROPERTIES
                             IMPORTED_LOCATION ${GLSLANG_LIBRARY}
                             INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
-    target_link_libraries(glslang INTERFACE MachineIndependent GenericCodeGen OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt Threads::Threads)
+    target_link_libraries(glslang INTERFACE MachineIndependent GenericCodeGen OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt 
 
     add_library(SPIRV STATIC IMPORTED)
     set_property(TARGET SPIRV APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
@@ -319,7 +319,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       SPIRV_LIBRARY
     )
 
-    if(MSVC)
+    if(WIN32)
       set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
     endif()
 
