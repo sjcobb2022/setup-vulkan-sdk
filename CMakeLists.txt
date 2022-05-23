@@ -303,10 +303,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     #     set_target_properties(OSDependent PROPERTIES
     #         IMPORTED_LOCATION_DEBUG ${OSDEPENDENT_LIBRARY_DEBUG})
     # endif()
-
     
     set_property(TARGET OSDependent APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(OGLCompiler
+    set_target_properties(OSDependent
                           PROPERTIES 
                             IMPORTED_LOCATION_RELEASE ${OSDEPENDENT_LIBRARY_RELEASE}
                             IMPORTED_LOCATION_DEBUG   ${OSDEPENDENT_LIBRARY_DEBUG})
