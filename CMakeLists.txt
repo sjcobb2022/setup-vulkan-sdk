@@ -142,11 +142,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
 
   ]====])
   # echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt
-  if(WIN32)
-    set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "ls . && basename . && ls .. && echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ../glslang/CMakeLists.txt)\" > ../glslang/CMakeLists.txt")
-  else()
-    set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "ls . && basename . && ls .. && echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ../Glslang/CMakeLists.txt)\" > ../Glslang/CMakeLists.txt")
-  endif()
+  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "ls . && basename . && ls .. && echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DENABLE_OPT:BOOL=ON)
 else()
   # otherwise disable External completely 
@@ -285,7 +281,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
                           PROPERTIES 
                             IMPORTED_LOCATION ${MACHINEINDEPENDENT_LIBRARY})
 
-
     add_library(glslang STATIC IMPORTED)
     set_property(TARGET glslang APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
     set_target_properties(glslang
@@ -293,7 +288,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
                             IMPORTED_LOCATION ${GLSLANG_LIBRARY}
                             INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
     target_link_libraries(glslang INTERFACE MachineIndependent GenericCodeGen OGLCompiler OSDependent HLSL SPIRV-Tools SPIRV-Tools-opt)
-
 
     add_library(SPIRV STATIC IMPORTED)
     set_property(TARGET SPIRV APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
@@ -307,6 +301,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
         "Cannot find glslangValidator, Shader won't be compiled offline"
         GLSLANG_VALIDATOR_EXE
     )
+    
     add_executable(glslangValidator IMPORTED)
     set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
 
@@ -324,7 +319,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
 
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt && echo -e \"$(echo \"\\n if(TARGET SPIRV-Tools-opt) \\n message(STATUS \"SPIRV-Tools-opt : ${SPIRV-Tools-opt_FOUND}\") \\n endif() \\n \") $(cat ../shaderc/glslc/CMakeLists.txt)\" > ../shaderc/glslc/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
   # execute_process(COMMAND wsl "-e" "awk \'/target_link_libraries(glslangValidator \$\{LIBRARIES\})/ { print; print \"message(STATUS \"Got past the library link\")\"; next }1\' ${CMAKE_BINARY_DIR}/Glslang-prefix/src/Glslang/StandAlone/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
 
