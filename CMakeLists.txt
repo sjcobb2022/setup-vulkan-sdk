@@ -143,7 +143,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   ]====])
   # echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt
   # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c " echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
-  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' CMakeLists.txt")
+  # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i.bak \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' ./CMakeLists.txt")
+
+  # sed -i.bak -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' ./CMakeLists.txt
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DENABLE_OPT:BOOL=ON)
 else()
   # otherwise disable External completely 
@@ -349,7 +352,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   ]====])
 
   # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i\"\" -e \'17 a\\ \n include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\n\' CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i.bak -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' ./CMakeLists.txt")
   # sed -i'' -e 's/old_link/new_link/g' *
 
   # sed 's/fields/fields\nNew Inserted Line/' file.txt 
