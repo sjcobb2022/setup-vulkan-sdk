@@ -349,7 +349,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   ]====])
 
   # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i \'17 a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i\'\' -e \'17 a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' CMakeLists.txt")
+  # sed -i'' -e 's/old_link/new_link/g' *
+
   # sed 's/fields/fields\nNew Inserted Line/' file.txt 
   # execute_process(COMMAND wsl "-e" "awk \'/target_link_libraries(glslangValidator \$\{LIBRARIES\})/ { print; print \"message(STATUS \"Got past the library link\")\"; next }1\' ${CMAKE_BINARY_DIR}/Glslang-prefix/src/Glslang/StandAlone/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
