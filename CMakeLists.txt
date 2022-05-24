@@ -198,17 +198,22 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     add_library(SPIRV-Tools STATIC IMPORTED)
     set_property(TARGET SPIRV-Tools APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(SPIRV-Tools
-                          PROPERTIES 
-                            IMPORTED_LOCATION ${SPIRV_TOOLS_LIBRARY})
-    set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${SPIRV_TOOLS_INCLUDE_DIR} )
+    set_target_properties(
+      SPIRV-Tools
+        PROPERTIES
+          IMPORTED_LOCATION ${SPIRV_TOOLS_LIBRARY}
+    )
 
+    set_target_properties(SPIRV-Tools PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${SPIRV_TOOLS_INCLUDE_DIR} )
 
     add_library(SPIRV-Tools-opt STATIC IMPORTED)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(SPIRV-Tools-opt
-                          PROPERTIES 
-                            IMPORTED_LOCATION ${SPIRV_TOOLS_OPT_LIBRARY})
+    set_target_properties(
+      SPIRV-Tools-opt
+        PROPERTIES
+          IMPORTED_LOCATION ${SPIRV_TOOLS_OPT_LIBRARY}
+    )
+
     set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${SPIRV_TOOLS_LIBRARY})
 
@@ -254,54 +259,71 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
     add_library(OGLCompiler STATIC IMPORTED)
     set_property(TARGET OGLCompiler APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(OGLCompiler
-                          PROPERTIES 
-                            IMPORTED_LOCATION ${OGLCOMPILER_LIBRARY})
-    
+    set_target_properties(
+      OGLCompiler   
+        PROPERTIES
+          IMPORTED_LOCATION ${OGLCOMPILER_LIBRARY}
+    )
+
     set_property(TARGET OGLCompiler APPEND PROPERTY
                           INTERFACE_LINK_LIBRARIES Threads::Threads)
 
     add_library(OSDependent STATIC IMPORTED)
     set_property(TARGET OSDependent APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(OSDependent
-                          PROPERTIES 
-                            IMPORTED_LOCATION ${OSDEPENDENT_LIBRARY})
+    set_target_properties(
+      OSDependent
+        PROPERTIES
+          IMPORTED_LOCATION ${OSDEPENDENT_LIBRARY}
+    )
+
+    target_link_libraries(OSDependent INTERFACE Threads::Threads)
 
     add_library(HLSL STATIC IMPORTED)
     set_property(TARGET HLSL APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(HLSL
-                          PROPERTIES
-                            IMPORTED_LOCATION   ${HLSL_LIBRARY})
-    
+    set_target_properties(
+      HLSL
+        PROPERTIES
+          IMPORTED_LOCATION   ${HLSL_LIBRARY}
+    )
 
     add_library(GenericCodeGen STATIC IMPORTED)
     set_property(TARGET GenericCodeGen APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(GenericCodeGen
-                          PROPERTIES 
-                            IMPORTED_LOCATION ${GENERICCODEGEN_LIBRARY})
-
+    set_target_properties(
+      GenericCodeGen
+        PROPERTIES
+          IMPORTED_LOCATION ${GENERICCODEGEN_LIBRARY}
+    )
 
     add_library(MachineIndependent STATIC IMPORTED)
     set_property(TARGET MachineIndependent APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(MachineIndependent
-                          PROPERTIES 
-                            IMPORTED_LOCATION ${MACHINEINDEPENDENT_LIBRARY})
+    set_target_properties(
+      MachineIndependent
+        PROPERTIES
+          IMPORTED_LOCATION ${MACHINEINDEPENDENT_LIBRARY}
+    )
+    
+    target_link_libraries(MachineIndependent INTERFACE OGLCompiler OSDependent GenericCodeGen)
 
     add_library(glslang STATIC IMPORTED)
     set_property(TARGET glslang APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(glslang
-                          PROPERTIES
-                            IMPORTED_LOCATION ${GLSLANG_LIBRARY}
-                            INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
-    target_link_libraries(glslang INTERFACE GenericCodeGen MachineIndependent OSDependent OGLCompiler HLSL SPIRV-Tools SPIRV-Tools-opt)
+    set_target_properties(
+      glslang
+        PROPERTIES
+          IMPORTED_LOCATION ${GLSLANG_LIBRARY}
+          INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang"
+    )
 
+    target_link_libraries(glslang INTERFACE OGLCompiler OSDependent MachineIndependent HLSL SPIRV-Tools SPIRV-Tools-opt)
     
     add_library(SPIRV STATIC IMPORTED)
     set_property(TARGET SPIRV APPEND PROPERTY IMPORTED_CONFIGURATIONS "$<$<CONFIG:DEBUG>:DEBUG>$<$<CONFIG:RELEASE>:RELEASE>")
-    set_target_properties(SPIRV
-                          PROPERTIES
-                            IMPORTED_LOCATION ${SPIRV_LIBRARY}
-                            INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang")
+    set_target_properties(
+      SPIRV
+        PROPERTIES
+          IMPORTED_LOCATION ${SPIRV_LIBRARY}
+          INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/include;${CMAKE_INSTALL_PREFIX}/include/glslang"
+    )
+
     target_link_libraries(SPIRV INTERFACE glslang SPIRV-Tools SPIRV-Tools-opt)
 
     find_package_handle_standard_args(glslangValidator
