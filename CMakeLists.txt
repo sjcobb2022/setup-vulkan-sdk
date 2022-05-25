@@ -89,6 +89,46 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
   file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake  [====[
+
+  # include(FindPackageHandleStandardArgs)
+  # include(SelectLibraryConfigurations)
+
+  # find_library(SPIRV_TOOLS_LIBRARY_DEBUG NAMES SPIRV-Toolsd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
+  # find_library(SPIRV_TOOLS_LIBRARY_RELEASE NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
+  # find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-optd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
+  # find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
+  # find_path(SPIRV_TOOLS_INCLUDE_DIR NAMES spirv-tools/libspirv.h HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/spirv-tools PATH_SUFFIXES include)
+  
+  # select_library_configurations(SPIRV_TOOLS_OPT)
+  # select_library_configurations(SPIRV_TOOLS)
+
+  # find_package_handle_standard_args(
+  #     SPIRV-Tools-opt
+  #     DEFAULT_MSG
+  #     SPIRV_TOOLS_OPT_LIBRARY
+  #     SPIRV_TOOLS_LIBRARY
+  #     SPIRV_TOOLS_INCLUDE_DIR
+  # )
+
+  # add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
+
+  # if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
+  #     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+  #     set_target_properties(SPIRV-Tools-opt PROPERTIES
+  #       IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
+  #       message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
+  # endif()
+  #   if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
+  #       set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+  #       set_target_properties(SPIRV-Tools-opt PROPERTIES
+  #           IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
+  #           message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
+  # endif()
+
+  # set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
+
+  # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${SPIRV_TOOLS_LIBRARY})
+
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
@@ -99,13 +139,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
     find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
+
   ]====])
   # echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt
-  # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c " echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
-  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' ./CMakeLists.txt")
-  # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44a'include\(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' ./CMakeLists.txt")
+  # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c " echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) > External/CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' CMakeLists.txt")
 
-  # sed -i.bak -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' ./CMakeLists.txt
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DENABLE_OPT:BOOL=ON)
 else()
   # otherwise disable External completely 
@@ -130,7 +169,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     function(cat_file file_path)
       execute_process(COMMAND bash "-c" "cat ${file_path}")
     endfunction()
-    
+
     set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     set(spirv-tools_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
@@ -305,9 +344,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     #   SPIRV_LIBRARY
     # )
 
-    # if(WIN32)
-    #   set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-    # endif()
+    if(WIN32)
+      set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
+    endif()
 
   ]====])
 
