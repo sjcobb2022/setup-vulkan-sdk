@@ -378,7 +378,8 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   ]====])
 
   # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
-  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' ./CMakeLists.txt")
+  set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' CMakeLists.txt && sed -i -e \'72a set_property(TARGET shaderc_shared APPEND PROPERTY STATIC_LIBRARY_FLAGS \"-no_warning_for_no_symbols\")\' libshaderc/CMakeLists.txt")
+  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' ./CMakeLists.txt")
   # sed -i'' -e 's/old_link/new_link/g' *
 
   # sed 's/fields/fields\nNew Inserted Line/' file.txt 
