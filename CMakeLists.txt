@@ -151,7 +151,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
     set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
     # TODO: Move glslang/CHANGES into include
-    set(glslang_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
+    set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
 
     include(FindPackageHandleStandardArgs)
     include(SelectLibraryConfigurations)
