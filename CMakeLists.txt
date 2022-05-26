@@ -112,7 +112,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
     ls_path(".")
     ls_path("..")
     
-    install(FILES ../CHANGES DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
+    install(FILES ../Glslang/CHANGES DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
 
     ls_path(${CMAKE_INSTALL_PREFIX}/include)
 
