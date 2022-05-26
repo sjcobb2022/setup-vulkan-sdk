@@ -90,44 +90,13 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
   file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake  [====[
 
-  # include(FindPackageHandleStandardArgs)
-  # include(SelectLibraryConfigurations)
-
-  # find_library(SPIRV_TOOLS_LIBRARY_DEBUG NAMES SPIRV-Toolsd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
-  # find_library(SPIRV_TOOLS_LIBRARY_RELEASE NAMES SPIRV-Tools HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
-  # find_library(SPIRV_TOOLS_OPT_LIBRARY_DEBUG NAMES SPIRV-Tools-optd HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES DEBUG/lib)
-  # find_library(SPIRV_TOOLS_OPT_LIBRARY_RELEASE NAMES SPIRV-Tools-opt HINTS ${CMAKE_INSTALL_PREFIX} PATH_SUFFIXES lib)
-  # find_path(SPIRV_TOOLS_INCLUDE_DIR NAMES spirv-tools/libspirv.h HINTS ${CMAKE_INSTALL_PREFIX} ${CMAKE_INSTALL_PREFIX}/include/spirv-tools PATH_SUFFIXES include)
-  
-  # select_library_configurations(SPIRV_TOOLS_OPT)
-  # select_library_configurations(SPIRV_TOOLS)
-
-  # find_package_handle_standard_args(
-  #     SPIRV-Tools-opt
-  #     DEFAULT_MSG
-  #     SPIRV_TOOLS_OPT_LIBRARY
-  #     SPIRV_TOOLS_LIBRARY
-  #     SPIRV_TOOLS_INCLUDE_DIR
-  # )
-
-  # add_library(SPIRV-Tools-opt UNKNOWN IMPORTED)
-
-  # if(SPIRV_TOOLS_OPT_LIBRARY_RELEASE)
-  #     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
-  #     set_target_properties(SPIRV-Tools-opt PROPERTIES
-  #       IMPORTED_LOCATION_RELEASE ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE})
-  #       message(STATUS "SPIRV-Tools Release: ${SPIRV_TOOLS_OPT_LIBRARY_RELEASE}")
-  # endif()
-  #   if(SPIRV_TOOLS_OPT_LIBRARY_DEBUG)
-  #       set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-  #       set_target_properties(SPIRV-Tools-opt PROPERTIES
-  #           IMPORTED_LOCATION_DEBUG ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG})
-  #           message(STATUS "SPIRV-Tools Debug: ${SPIRV_TOOLS_OPT_LIBRARY_DEBUG}")
-  # endif()
-
-  # set_target_properties(SPIRV-Tools-opt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include)
-
-  # set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${SPIRV_TOOLS_LIBRARY})
+    function(ls_path path)
+      if(WIN32)
+        execute_process(COMMAND powershell "-Command" "ls ${path}")
+      else()
+        execute_process(COMMAND bash "-c" "ls ${path}")
+      endif()
+    endfunction()
 
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
@@ -140,27 +109,18 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
     find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
 
-    # find_library(sprv-opt SPIRV-Tools-opt)
-    # if(NOT sprv-opt)
-    #   add_library(SPIRV-Tools-opt INTERFACE)
-    #   set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
-    #   set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
-    #   install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-opt)
-    #   install(EXPORT SPIRV-Tools-opt DESTINATION lib/cmake)
-    #   set(spirv_tools NOTFOUND)
-    #   set(spirv_tools_opt NOTFOUND)
-    #   find_library(spirv_tools SPIRV-Tools PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    #   find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
-    #   set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
-    # endif()
+    ls_path(".")
+    ls_path("..")
+    
+    install(FILES ../CHANGES DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
+
+    ls_path(${CMAKE_INSTALL_PREFIX}/include)
 
   ]====])
-  # echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt
-  # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c " echo -e \"include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake) > External/CMakeLists.txt")
-  # set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash -c "echo 'include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)' | tee External/CMakeLists.txt")
+  
   set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' CMakeLists.txt")
-
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DENABLE_OPT:BOOL=ON)
+
 else()
   # otherwise disable External completely 
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DBUILD_EXTERNAL:BOOL=OFF)
@@ -185,10 +145,10 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
       execute_process(COMMAND bash "-c" "cat ${file_path}")
     endfunction()
 
-    set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
-    set(spirv-tools_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    # set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
+    set(spirv-tools_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
     set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
-    set(SPIRV-Headers_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
+    set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
     set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
     # TODO: Move glslang/CHANGES into include
     set(glslang_SOURCE_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
@@ -377,29 +337,9 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
 
   ]====])
 
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "echo -e \"include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake) $(cat ./CMakeLists.txt)\" > ./CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' CMakeLists.txt && sed -i -e \'72a set_property(TARGET shaderc_shared APPEND PROPERTY STATIC_LIBRARY_FLAGS \"-no_warning_for_no_symbols\")\' libshaderc/CMakeLists.txt")
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash "-c" "sed -i -e \'17a include(${CMAKE_BINARY_DIR}/shaderc_patch.cmake)\' ./CMakeLists.txt")
-  # sed -i'' -e 's/old_link/new_link/g' *
-
-  # sed 's/fields/fields\nNew Inserted Line/' file.txt 
-  # execute_process(COMMAND wsl "-e" "awk \'/target_link_libraries(glslangValidator \$\{LIBRARIES\})/ { print; print \"message(STATUS \"Got past the library link\")\"; next }1\' ${CMAKE_BINARY_DIR}/Glslang-prefix/src/Glslang/StandAlone/CMakeLists.txt")
   set_property(GLOBAL APPEND PROPERTY Glslang_cmake_extra -DSHADERC_ENABLE_SHARED_CRT:BOOL=ON)
 
-  # file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake  [====[
-
-  #   function(ls_path path)
-  #     if(WIN32)
-  #       execute_process(COMMAND powershell "-Command" "ls ${path}")
-  #     else()
-  #       execute_process(COMMAND bash "-c" "ls ${path}")
-  #     endif()
-  #   endfunction()
-
-  #   message(STATUS "======================== SHADER_PATCH 2 =====================")
-
-  # ]====])
-  # set_property(GLOBAL APPEND PROPERTY shaderc_patch_command bash -c "echo \"include(${CMAKE_BINARY_DIR}/shaderc_patch_2.cmake) $(cat ../shaderc/CMakeLists.txt)\" > ../shaderc/CMakeLists.txt")
 endif()
 
 function(setup_component_dependency key value parentName)
@@ -422,7 +362,6 @@ function(setup_component name parentName)
     # then any override deps_extra's
     get_component_props(${name} deps_extra)
     foreach(kv ${deps_extra})
-      message(STATUS "setup component dependency ${deps_extra}")
       setup_component_dependency(${kv} ${name})
     endforeach()
 
@@ -443,13 +382,7 @@ function(setup_component name parentName)
 
     list(APPEND cmake_args ${cmake_extra})
 
-    message(STATUS "CMAKE")
-    message(STATUS "ExternalProject_Add ${ref} deps=[${deps}] cmake_extra=[${cmake_extra}]")
-    message(STATUS ">>>>>>>>>>> REF FOR ${name} IS ${ref}")
-
     json_get_subprops("${configJson}" "repos" "${name}" PROPERTIES defines)
-
-    message(STATUS " >>> ${defines}")
 
     ExternalProject_Add("${name}"
       GIT_REPOSITORY "${url}"
@@ -463,9 +396,7 @@ function(setup_component name parentName)
     )
 
     # ExternalProject_Get_Property("${name}" SOURCE_DIR)
-    # message(STATUS "Source dir of ${name} = ${SOURCE_DIR}")
 
-    # message()
     set_property(GLOBAL APPEND PROPERTY VULKAN_COMPONENTS_PROCESSED ${name})
 endfunction()
 
