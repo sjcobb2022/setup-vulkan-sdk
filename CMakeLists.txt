@@ -109,10 +109,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
     find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
 
-    ls_path(".")
-    ls_path("..")
-    
-    install(FILES "./CHANGES" DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
+    file(COPY "./CHANGES" DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
     ls_path(${CMAKE_INSTALL_PREFIX}/include)
 
@@ -146,12 +143,12 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     endfunction()
 
     # set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
-    set(spirv-tools_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
+    set(spirv-tools_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
     set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
-    set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
+    set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
     set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
     # TODO: Move glslang/CHANGES into include
-    set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}" CACHE FILEPATH "" FORCE)
+    set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
 
     include(FindPackageHandleStandardArgs)
     include(SelectLibraryConfigurations)
