@@ -112,11 +112,7 @@ function(get_defines _json _name _OUTVAR)
   foreach(_i RANGE 0 ${_n})
     string(JSON _key MEMBER "${defines}" "" ${_i})
     string(JSON _value MEMBER "${defines}" "" ${_key})
-    # list(APPEND )
   endforeach()
 
   
-  # set(${_OUTVAR} ${_value} PARENT_SCOPE)
 endfunction()
-
-# function(get_shader_shaderc_commit _json)
