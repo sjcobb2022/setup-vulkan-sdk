@@ -109,8 +109,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
     find_library(spirv_tools_opt SPIRV-Tools-opt PATHS ${CMAKE_INSTALL_PREFIX}/lib REQUIRED NO_DEFAULT_PATH NO_PACKAGE_ROOT_PATH NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH NO_CMAKE_FIND_ROOT_PATH)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${spirv_tools_opt} ${spirv_tools})
 
-    ls_path(${CMAKE_INSTALL_PREFIX}/include)
-
   ]====])
   
   set_property(GLOBAL APPEND PROPERTY Glslang_patch_command bash "-c" "sed -i \'44 a include(${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake)\' CMakeLists.txt")
