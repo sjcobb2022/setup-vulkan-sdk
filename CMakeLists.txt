@@ -89,15 +89,7 @@ if(VULKAN_SDK_COMPONENTS MATCHES "Glslang.*SPIRV-Tools|SPIRV-Tools.*Glslang|shad
   message("Glslang + SPIRV-Tools -- patching Glslang dependency on SPIRV-Tools-opt")
   set_property(GLOBAL APPEND PROPERTY Glslang_deps_extra "SPIRV-Tools\;spirv-tools_SOURCE_DIR")
   file(WRITE ${CMAKE_BINARY_DIR}/Glslang_SPIRV_patch.cmake  [====[
-
-    function(ls_path path)
-      if(WIN32)
-        execute_process(COMMAND powershell "-Command" "ls ${path}")
-      else()
-        execute_process(COMMAND bash "-c" "ls ${path}")
-      endif()
-    endfunction()
-
+  
     add_library(SPIRV-Tools-opt INTERFACE)
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_LINK_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/lib )
     set_property(TARGET SPIRV-Tools-opt APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/include )
@@ -122,28 +114,10 @@ endif()
 if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
   file(WRITE ${CMAKE_BINARY_DIR}/shaderc_patch.cmake  [====[
 
-    message(STATUS "======================== SHADER PATCH 1 =====================")
+    message(STATUS "======================== SHADER PATCH ========================")
 
-    set(CMAKE_VERBOSE_MAKEFILE ON)
-
-    function(ls_path path)
-      if(WIN32)
-        execute_process(COMMAND powershell "-Command" "ls ${path}")
-      else()
-        execute_process(COMMAND bash "-c" "ls ${path}")
-      endif()
-    endfunction()
-
-    function(cat_file file_path)
-      execute_process(COMMAND bash "-c" "cat ${file_path}")
-    endfunction()
-
-    # set(SHADERC_SPIRV_TOOLS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Tools-prefix/src/SPIRV-Tools" CACHE FILEPATH "" FORCE)
     set(spirv-tools_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
-    set(SHADERC_SPIRV_HEADERS_DIR "${CMAKE_BINARY_DIR}/../../../SPIRV-Headers-prefix/src/SPIRV-Headers" CACHE FILEPATH "" FORCE)
     set(SPIRV-Headers_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
-    set(SHADERC_GLSLANG_DIR "${CMAKE_BINARY_DIR}/../../../Glslang-prefix/src/Glslang" CACHE FILEPATH "" FORCE)
-    # TODO: Move glslang/CHANGES into include
     set(glslang_SOURCE_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE FILEPATH "" FORCE)
 
     include(FindPackageHandleStandardArgs)
@@ -315,14 +289,6 @@ if(VULKAN_SDK_COMPONENTS MATCHES "shaderc")
     
     add_executable(glslangValidator IMPORTED)
     set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
-
-    mark_as_advanced(
-      GLSLANG_LIBRARY
-      OGLCOMPILER_LIBRARY
-      OSDEPENDENT_LIBRARY
-      HLSL_LIBRARY
-      SPIRV_LIBRARY
-    )
 
     file(COPY "CHANGES" DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 

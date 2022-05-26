@@ -31,6 +31,8 @@ As of now the following SDK release numbers are known to be usable across all th
 - 1.2.198.1
 - 1.3.204.0
 
+NOTE: Compiling shaderc should use gcc or clang. Compiling with llvm does not work.
+
 It is also possible to specify `latest` and the action will attempt to resolve automatically.
 
 NOTE: For production workflows it is recommended to create project-local copies of sdk config.json(s); see [Advanced](#Advanced-integration) example below.
