@@ -433,7 +433,6 @@ function(setup_component name parentName)
     # convert spaces to list (otherwise CMAKE_ARGS seems to force quotes if there are spaces in singular values)
     string(REPLACE " " ";" cmake_extra "${cmake_extra}")
     set(cmake_args
-        -Wno-dev
         -DCMAKE_INSTALL_MESSAGE=NEVER
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_INSTALL_PREFIX=${VULKAN_SDK}
